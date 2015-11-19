@@ -2,11 +2,112 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
+		<style>
+			#serachField{
+				position: absolute;
+				width: 98%;
+				height: 50%;				
+			}
+			
+			#topFiveListField{
+				position: absolute;
+				bottom: 0;
+				width: 98%;
+				height: 50%;	
+
+				border: 1px solid grey;				
+			}
+			
+			#errorMessageDiv{
+				position: absolute;
+				bottom: 1%;
+				left: 50%;
+				transform: translate(-50%);
+				width: 50%;
+				height: 10%;
+			}
+			
+			#postcodeFieldDiv{
+				position: absolute;
+				top: 0;
+				left: 0;
+				height:85%;
+				width: 50%;
+			}
+			
+			#locationButtonDiv{
+				position: absolute;
+				top: 0;
+				right: 0;
+				height:85%;
+				width: 50%;
+			}
+			
+			#postcodeField{
+				position: absolute;
+				bottom: 0;
+				right: 0;
+			}
+			
+			#locationButton{
+				position: absolute;
+				bottom: 0;
+				left: 0;
+			}
+			
+			#loginLink{
+				position: absolute;
+				top: 0;
+				right: 0;
+			}
+			
+		</style>
 	
 	</head>
 	<body>
 	
 	
+	
+	<div id="serachField">
+		<div id="postcodeFieldDiv">
+			<form>
+				<input id="postcodeField" type="field" name="postcode" placeholder="Postcode">
+			</form>
+		</div>
+		<div id="locationButtonDiv">
+			<button id="locationButton" onclick="getLocation()">Use Current Location</button>
+			<a id="loginLink" href="login.html">Log in</a>
+		</div>
+		<div id="errorMessageDiv">
+			<!--Place holder to display error message of geocaching -->
+			<p id="errorMessage"></p>
+		</div>
+	</div>
+	<div id="topFiveListField">
+		<!-- place holder for actual list-->
+	</div>
+	
+	
+	<!-- 
+		javascript for geocaching is taken from:
+		http://www.w3schools.com/html/tryit.asp?filename=tryhtml5_geolocation -->
+		
+	<script>
+		var x = document.getElementById("errorMessage");
+
+		function getLocation() {
+			if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(showPosition);
+			} else { 
+			x.innerHTML = "Geolocation is not supported by this browser.";
+		}
+	}
+		<!-- location is displayed purely for testing -->
+		function showPosition(position) {
+			x.innerHTML = "Latitude: " + position.coords.latitude + 
+			"<br>Longitude: " + position.coords.longitude;	
+		}
+	</script>
 	
 	</body>
 
