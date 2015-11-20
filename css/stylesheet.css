@@ -1,0 +1,28 @@
+
+/* Radar style */
+.radar-body {
+				fill : black;
+				stroke : black;				
+			}
+			
+			.radar-grid-line {
+				stroke : #0000FF;
+			}
+				
+			.radar-range-circle {
+				fill : none;
+				stroke : #0000FF;				
+			}
+			
+			.radar-center {
+				fill : #0000FF;
+			}
+			
+			.radar-detector-line {
+				stroke: #00cccc;
+			}
+						
+			.dot-text {
+				fill: black;
+				font-amily: sans-serif;				
+			}
