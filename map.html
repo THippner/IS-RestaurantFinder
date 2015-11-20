@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <title>Restaurant Radar Map</title>
+    
+     <script src="https://maps.googleapis.com/maps/api/js?libraries=places&callback=initMap"
+        async defer></script>
+    
+    <style>
+        #map {
+        width:50%;
+        height: 550px;
+      
+        }
+        .btn{
+          margin-bottom:10px;
+          margin-top:10px;
+          margin-left: -2px;
+          margin-right: -2px;
+
+        }
+        .glyphicon{
+          color: green;
+        }
+        .map-list-item{
+          height:80px;
+        }
+        .map-list-item:hover{
+          cursor: pointer;
+         cursor: hand;
+         background-color:lightGray;}
+          #media-list{
+           padding-right:5px;
+           height: 550px;
+           overflow: auto;
+           
+    }
+    .media{
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+      padding: 0px 1.5rem;
+    }
+    .media-heading{
+      margin-right: 5px;
+
+    }
+        
+    </style>
+</head>
+<body>
+<div class="container"> 
+
+  <div class="col-lg-offset-6">
+    <input id="address" type="text" class="input-sm" placeholder="Enter place or post code">
+    <input id="submit" type="button" class="btn btn-default btn-sm" value="update location">
+    </div>
+ <!-- <div class="row"> -->
+   
+  <ul class="medialist col-md-4 col-lg-4" id="media-list">
+
+  </ul>
+  
+<div id="map" class="col-lg-4"></div>   
+
+<div class="list-group col-lg-2">
+  <button type="button" class="list-group-item list-group-item-success" >Restaurant</button>
+  <button type="button" class="list-group-item" >Cafe</button>
+  <button type="button" class="list-group-item" >Bar</button>
+</div>
+<!-- </div> -->
+</div>
+<script>
+    KEY='AIzaSyBtQPpmqtJfSEktcwpe11JeNEJ2TXky6xI'
+var map;
+var infowindow;
+var places;
+var geocoder;
+var markers = new Array();
+var orgn = {lat:55.8580, lng:-4.2590};
+var directionsDisplay;
+var directionsService
+function initMap() {
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: orgn,
+    zoom: 15
+  });
+
+  infowindow = new google.maps.InfoWindow();
+  
+  getPlaces(orgn,map);
+
+  geocoder = new google.maps.Geocoder();
+
+  document.getElementById('submit').addEventListener('click', function() {
+    geocodeAddress(geocoder, map);
+  });
+  // createMarker(orgn,"green");
+}
+
+function callback(results, status) {
+  if (status === google.maps.places.PlacesServiceStatus.OK) {
+    for (var i = 0; i < results.length; i++) {
+      createMarker(results[i],"red");
+      if(results[i].photos !== undefined){
+      $("#media-list").append("<li class='media col-lg-12' ><div class='map-list-item'><div class='media-left'><img width ='85' pxclass='media-object' src='"  + results[i].photos[0].getUrl({
+            'maxWidth': 65,
+            'maxHeight': 45,
+        })
+      +"' alt='test'></a></div><div class='media-body'><h5 class='media-heading'>" + results[i].name +"</h4><p>" + results[i].vicinity +".</p></div><div class='media-left media-top'>" + getStars(results[i].rating)  
+       + "</div></div></li>");
+         }else{
+          $("#media-list").append("<li class='media col-lg-12'><div  class='map-list-item'><div class='media-left'><img width ='40' height='40' pxclass='media-object' src='" + results[i].icon +"' alt='test'></div><div class='media-body'><h5 class='media-heading'>" + results[i].name +"</h4><p>" + results[i].vicinity +".</p></div><div class='media-left media-top'><div>" + getStars(results[i].rating)  
+       + "</div></div></div></li>");
+         }
+        
+    }
+    places = results;
+  }
+}
+
+var request;
+function createMarker(place, color) {
+  var placeLoc = place.geometry.location;
+  var marker = new google.maps.Marker({
+    map: map,
+    position: place.geometry.location
+    
+  });
+  markers.push(marker);
+   // if(color =="green"){
+   //    marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
+   //  }
+   google.maps.event.addListener(marker, 'mouseover', function() {
+
+      infowindow.setContent(place.name + getStars(place.rating));
+
+    infowindow.open(map, this);
+   });
+
+  google.maps.event.addListener(marker, 'click', function() {
+    request = {
+    destination: marker.position,
+    origin: orgn,
+    // possible WALKINK, DRIVING, BICYCLING and TRANSIT
+    travelMode: google.maps.TravelMode.DRIVING
+  };
+    directionsDisplay = new google.maps.DirectionsRenderer({map: map});
+    
+
+     // Pass the directions request to the directions service.
+  directionsService = new google.maps.DirectionsService();
+  directionsService.route(request, function(response, status) {
+    if (status == google.maps.DirectionsStatus.OK) {
+      // Display the route on the map.
+      directionsDisplay.setDirections(response);
+    }
+  });
+  });
+}
+ 
+ function geocodeAddress(geocoder, resultsMap) {
+  var address = document.getElementById('address').value;
+  map = resultsMap;
+  geocoder.geocode({'address': address}, function(results, status) {
+    if (status === google.maps.GeocoderStatus.OK) {
+      resultsMap.setCenter(results[0].geometry.location);
+      var marker = new google.maps.Marker({
+        map: resultsMap,
+        position: results[0].geometry.location
+        });
+       getPlaces(marker.position, map);
+    } else {
+      alert('Geocode was not successful for the following reason: ' + status);
+    }
+  });
+}
+
+function getStars(rating){
+  if(rating >0.5 && rating < 1){
+      return " <span class='glyphicon glyphicon-star-empty'></span>";
+    }
+    else if(rating  > 1 && rating < 1.5){
+      return "<span class='glyphicon glyphicon-star'></span>";
+    }
+    else if(rating > 1.5 && rating < 2){
+      return " <span class='glyphicon glyphicon-star'></span><span class='glyphicon glyphicon-star-empty'></span>";
+    }
+    else if (rating > 2 && rating < 2.5){
+      return " <span class='glyphicon glyphicon-star'></span><span class='glyphicon glyphicon-star'></span>";
+    }
+    else if (rating > 2.5 && rating < 3){
+      return " <span class='glyphicon glyphicon-star'></span><span class='glyphicon glyphicon-star'></span><span class='glyphicon glyphicon-star-empty'></span>";
+    }
+    else if (rating > 3 && rating < 3.5){
+      return " <span class='glyphicon glyphicon-star'></span><span class='glyphicon glyphicon-star'></span><span class='glyphicon glyphicon-star'></span>";
+    }
+    else if (rating > 3.5 && rating < 4){
+      return " <span class='glyphicon glyphicon-star'></span><span class='glyphicon glyphicon-star'></span><span class='glyphicon glyphicon-star'></span><span class='glyphicon glyphicon-star-empty'></span>";
+    }
+    else if(rating > 4 && rating < 4.5){
+      return" <span class='glyphicon glyphicon-star'></span><span class='glyphicon glyphicon-star'></span><span class='glyphicon glyphicon-star'></span><span class='glyphicon glyphicon-star'></span>";
+    }
+    else if(rating > 4.5 && rating < 5){
+      return " <span class='glyphicon glyphicon-star'></span><span class='glyphicon glyphicon-star'></span><span class='glyphicon glyphicon-star'></span><span class='glyphicon glyphicon-star'></span></span><span class='glyphicon glyphicon-star-empty'></span>";
+    }
+    else if(rating == 5){
+      return" <span class='glyphicon glyphicon-star'></span><span class='glyphicon glyphicon-star'></span><span class='glyphicon glyphicon-star'></span><span class='glyphicon glyphicon-star'></span></span><span class='glyphicon glyphicon-star'></span>";
+    }
+    else{
+      return "";
+    }
+}
+function getPlaces(loc, map){
+  orgn = loc;
+  var type = $('.list-group-item-success').html().toLowerCase();
+  deleteMarkers();
+   var service = new google.maps.places.PlacesService(map);
+        service.nearbySearch({
+        location: loc,
+        radius: 500,
+        types: [type]
+        }, callback);
+}
+
+// Sets the map on all markers in the array.
+function setMapOnAll(map) {
+  for (var i = 0; i < markers.length; i++) {
+    markers[i].setMap(map);
+  }
+}
+
+// Removes the markers from the map, but keeps them in the array.
+function clearMarkers() {
+  setMapOnAll(null);
+}
+// Deletes all markers in the array by removing references to them.
+function deleteMarkers() {
+  clearMarkers();
+  markers = [];
+}
+  // Set destination, origin and travel mode.
+  
+$('.list-group-item').click(function(){
+  $(this).toggleClass( 'list-group-item-success' );
+  $(this).siblings().removeClass( 'list-group-item-success');
+  getPlaces(orgn, map);
+
+});
+
+</script>
+
+</body>
+</html>
