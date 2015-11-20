@@ -27,10 +27,7 @@
 			.radar-detector-line {
 				stroke: #00cccc;
 			}
-			
-			
-			
-			
+						
 			.dot-text {
 				fill: black;
 				font-amily: sans-serif;				
@@ -44,6 +41,8 @@
 			
 			// Dataset
 			var center = [55.123, 65.123];
+			
+			// this should be replaced with actual data pulled from G-Maps
 			var restaurants = [
 								[56.321, 70.123, 4],
 								[53.321, 62.123, 3.5],
@@ -53,12 +52,10 @@
 							];
 							
 			// Process the data for restaruants dots
-			
+			// change values to ones relative to the center point			
 			for(i = 0; i < restaurants.length; i++){
 				restaurants[i][0] -= center[0];
-				restaurants[i][1] -= center[1];
-				//d3.select("body").append("text").text(restaurants[i][0] + " ");
-				//d3.select("body").append("text").text(restaurants[i][1]);
+				restaurants[i][1] -= center[1];				
 			}			
 			
 						
@@ -72,20 +69,20 @@
 			var xScaleDot = d3.scale.linear()
 				.domain([d3.min(restaurants, function(d){ return d[0]; }),
 						d3.max(restaurants, function(d){ return d[0]; })])
-				.range([100, svg_w - 100]); // <=========================================== REPLACE
+				.range([svg_w/5, svg_w - svg_w/5]); // padded range
 							
 			var yScaleDot = d3.scale.linear()
 				.domain([d3.min(restaurants, function(d){ return d[1]; }),
 						d3.max(restaurants, function(d){ return d[1]; })])
-				.range([100, svg_h - 100]); // <============================================ REPLACE
+				.range([svg_h/5, svg_h - svg_h/5]); // padded range
 			
 			var rtgScaleDot = d3.scale.linear()
 				.domain([1, 5])
-				.range([svg_w*0.03, svg_w*0.06]); // <=========== replace with some global calibration maybe?
+				.range([svg_w*0.03, svg_w*0.06]); // <=========== replace with some global calibration var maybe?
 				
 			var rtgScaleTxt = d3.scale.linear()
 				.domain([1,5])
-				.range([15,40]); // <============================================ REPLACE
+				.range([15,40]); // <====================== Should probably be scaled off svg size
 			
 			// Radar Circle attrib
 			var radar_pad = svg_w / 70; 
@@ -190,12 +187,10 @@
 				.attr("fill", function(d){
 					// change color based on rating
 					var rating = d[2];					
-					if(rating < 2) return "#ff0000";
-					else if (rating >= 2 && rating < 4) return "#e5e600";
-					else if (rating >= 4) return "#00cc00";					
-					}
-					
-					);
+					if(rating < 2.5) return "#ff0000";
+					else if (rating >= 2.5 && rating < 4) return "#e5e600";
+					else return "#00cc00";					
+					});
 			
 			// rating values
 			svg.selectAll("dot-text")
