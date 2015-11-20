@@ -37,18 +37,42 @@
 			var center = [55.123, 65.123];
 			var restaurants = [
 								[56.321, 70.123, 4],
-								[53.321, 62.123, 3],
+								[53.321, 62.123, 3.5],
 								[57.321, 68.123, 4],
-								[55.321, 55.123, 5],
-								[51.321, 76.123, 1],
+								[55.321, 55.123, 5.1],
+								[51.321, 76.123, 2],
 							];
 							
-			// Process the data for circles
+			// Process the data for restaruants dots
+			
+			for(i = 0; i < restaurants.length; i++){
+				restaurants[i][0] -= center[0];
+				restaurants[i][1] -= center[1];
+				//d3.select("body").append("text").text(restaurants[i][0] + " ");
+				//d3.select("body").append("text").text(restaurants[i][1]);
+			}			
 			
 						
 			// SVG attrib
 			var svg_w = 500;
 			var svg_h = svg_w; // square
+			
+			
+			
+			// Create scales for restaurant dost
+			var xScaleDot = d3.scale.linear()
+				.domain([d3.min(restaurants, function(d){ return d[0]; }),
+						d3.max(restaurants, function(d){ return d[0]; })])
+				.range([100, svg_w - 100]); // <============================================ REPLACE
+							
+			var yScaleDot = d3.scale.linear()
+				.domain([d3.min(restaurants, function(d){ return d[1]; }),
+						d3.max(restaurants, function(d){ return d[1]; })])
+				.range([100, svg_h - 100]); // <============================================ REPLACE
+			
+			var rtgScaleDot = d3.scale.linear()
+				.domain([1, 5])
+				.range([svg_w*0.03, svg_w*0.06]);
 			
 			// Radar Circle attrib
 			var radar_pad = svg_w / 70; 
@@ -116,10 +140,7 @@
 				.attr("y2", svg_h)
 				.attr("stroke-width", radar_pad)
 				.attr("class", "radar-grid-line");
-			
-			// Radar rotating detector line
-			//var container = svg.append("g")
-			//	.attr("transform", "translate(" + svg_w/2 + "," + svg_h/2 + ")");
+				
 				
 			var detector = svg.append("line")
 				.attr("x1", svg_w/2)
@@ -141,11 +162,36 @@
 				.attr("class", "radar-range-circle radar-center");	
 				
 				
+				
+			// Restaurant Dots ============================================
+			
+			// dots
+			svg.selectAll("dot")
+				.data(restaurants)
+				.enter()
+				.append("circle")
+				.attr("class", "dot")
+				.attr("cx", function(d){ return xScaleDot(d[0]);})
+				.attr("cy", function(d){ return yScaleDot(d[1]);})
+				.attr("r", function(d){ return rtgScaleDot(d[2]);})
+				.attr("fill", "red");
+			
+			svg.selectAll("dot-text")
+					.data(restaurants)
+					.enter()
+					.append("text")
+					.attr("class", "dot-text")
+					.text(function(d){ return d[2];})
+					.attr("x", function(d){ return xScaleDot(d[0]);})
+					.attr("y", function(d){ return yScaleDot(d[1]);})
+					.attr("font-size", "11px")
+					.attr("fill", "green");
+				
 			// Rotating function	
 			d3.timer(function() {
 				var delta = (Date.now() - t0);
 				detector.attr("transform", "rotate("+ delta / 5 +"," + svg_w/2 + "," + svg_h/2 + ")");
-			});
+			}, 2000);
 						
 		
 		
