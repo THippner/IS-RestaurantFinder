@@ -86,3 +86,31 @@
 	fill: black;
 	font-amily: sans-serif;				
 }
+
+#map{
+	visibility: hidden;
+}
+#map0{
+	width:160px;
+	height:80px;
+}
+
+#map1{
+	width:160px;
+	height:80px;
+}
+
+#map2{
+	width:160px;
+	height:80px;
+}
+
+#map3{
+	width:160px;
+	height:80px;
+}
+
+#map4{
+	width:160px;
+	height:80px;
+}
