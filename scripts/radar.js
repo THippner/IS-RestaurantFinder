@@ -1,24 +1,29 @@
-// Radar Java Script for Restaurant Finder
+// Radar JavaScript for Restaurant Finder
 
 
-// // Dataset 
-//!!!!!!!!!! merge conflict wasnt sure which center to keep
-// var center = [55.123, 65.123];
 
-
-// Called to update your array every time map data is updated
-function loadRadar(results, orgn){
-	// Use these to get coordinates
-orgn.lat;
-orgn.lng;
-
-results[0].geometry.location.lat();
-results[0].geometry.location.lng();
-}
-
-
+// KEEP THIS COMMENTED FOR NOW
 // this should be replaced with actual data pulled from G-Maps
-var center = [55.8574, -4.256899];
+//var center = [55.8574, -4.256899];
+//var restaurants = [ // lat, long, rating, distance
+//					[55.857126, -4.25743, 1, 0],
+//					[55.857183, -4.257108, 2, 0],
+//					[55.857738, -4.25596, 3, 0],
+//					[55.857876, -4.257022, 4, 0],
+//					[55.857545, -4.257296, 5, 0],
+//				];
+
+
+// THIS WILL SHOW YOU VALUES IN CONSOLE WHEN YOU INSPECT
+console.log(orgn); // this works
+console.log(results); // this crashes
+
+var center = [orgn.lat, orgn.lng]; // This works
+var whatever = results[0].geometry.location.lat; // This doesnt
+
+
+
+
 var restaurants = [ // lat, long, rating, distance
 					[55.857126, -4.25743, 1, 0],
 					[55.857183, -4.257108, 2, 0],
@@ -26,6 +31,19 @@ var restaurants = [ // lat, long, rating, distance
 					[55.857876, -4.257022, 4, 0],
 					[55.857545, -4.257296, 5, 0],
 				];
+
+
+
+// Called to update your array every time map data is updated
+function loadRadar(results, orgn){
+	// Use these to get coordinates
+
+
+//results[0].geometry.location.lat();
+//results[0].geometry.location.lng();
+}
+
+
 
 // get distance form center to points
 
