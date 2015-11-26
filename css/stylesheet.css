@@ -92,6 +92,11 @@
 	font-family: sans-serif;
 	}
 
+.north-indicator {
+	fill: black;
+	stroke: #0000FF;	
+	}
+
 /* Map styles ******************************************************** */
 #map{
 	visibility: hidden;

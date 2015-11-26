@@ -212,7 +212,7 @@ svg.append("text").attr("class", "radar-range-text")
 			})
 			.attr("x", svg_w/2 + radar_circ_body.attr("r") * 1 / 3)
 			.attr("y", svg_h/2)
-			.attr("font-size", "17px")			
+			.attr("font-size", "17px") // TODO change to scaling with size			
 			.attr("text-anchor", "middle")
 			.attr("dominant-baseline", "hanging");
 					
@@ -229,10 +229,29 @@ svg.append("text").attr("class", "radar-range-text")
 			})
 			.attr("x", svg_w/2 + radar_circ_body.attr("r") * 2 / 3)
 			.attr("y", svg_h/2)
-			.attr("font-size", "17px")			
+			.attr("font-size", "17px")	// TODO change to scaling with size		
 			.attr("text-anchor", "middle")
 			.attr("dominant-baseline", "hanging");
 			
+
+// North indicator
+
+svg.append("polygon")
+	.attr("class", "north-indicator")
+	.attr("points", (svg_w/2 - radar_pad*4) + "," + 0 + " " +
+					(svg_w/2 + radar_pad*4) + "," + 0 + " " +
+					svg_w/2 + "," + radar_pad*5)
+	.attr("stroke-width" , radar_pad/3);
+	
+					
+					
+					
+svg.append("text").attr("class", "radar-range-text")
+	.text("N")
+	.attr("x", svg_w/2)
+	.attr("y", radar_pad*3)
+	.attr("text-anchor", "middle")
+	.attr("font-size", "25px"); // TODO change to scaling with size
 
 // Testing code ********************************************** Testing code
 //var range1 = document.getElementByClass
