@@ -86,13 +86,13 @@
 	fill: black;
 	font-family: sans-serif;				
 }
-<<<<<<< HEAD
+
 /*#radar-location{
         display:none
 }*/
 #map-container{
         display:none
-=======
+	}
 
 .radar-range-text {
 	fill: white;
@@ -107,7 +107,7 @@
 /* Map styles ******************************************************** */
 #map{
 	visibility: hidden;
->>>>>>> fd58c5ab85eefd9dc4137ef95ca508e49057944d
+
 }
 #map0{
 	width:160px;
