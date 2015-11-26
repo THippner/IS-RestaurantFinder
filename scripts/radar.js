@@ -1,7 +1,6 @@
 // Radar Java Script for Restaurant Finder
 
 
-// <<<<<<< HEAD
 // // Dataset 
 //!!!!!!!!!! merge conflict wasnt sure which center to keep
 // var center = [55.123, 65.123];
@@ -55,13 +54,6 @@ for(i = 0; i < restaurants.length; i++){
 	restaurants[i][1] -= center[1];				
 }
 
-<<<<<<< HEAD
-	
-=======
-
-
-			
->>>>>>> fd58c5ab85eefd9dc4137ef95ca508e49057944d
 // SVG attrib
 var svg_w = 500;
 var svg_h = svg_w; // square
@@ -298,11 +290,7 @@ svg.append("text").attr("class", "radar-range-text")
 d3.timer(function() {
 	var delta = (Date.now() - t0);
 	detector.attr("transform", "rotate("+ delta / 5 +"," + svg_w/2 + "," + svg_h/2 + ")");
-<<<<<<< HEAD
-});	
-// map code -------------------------------------------------------------------------------------------------
 
-=======
 });
 
 // Find absoulte maximum of latitude/longitude
@@ -362,9 +350,3 @@ function distance(point1, point2){
 
 
 
-
-
-
-
-			
->>>>>>> fd58c5ab85eefd9dc4137ef95ca508e49057944d

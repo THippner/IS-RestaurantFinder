@@ -63,9 +63,9 @@
   
  <!-- <div class="row"> -->
    
-  <ul class="medialist col-md-4 col-lg-4" id="media-list">
+  <div class="medialist col-md-4 col-lg-4" id="media-list">
 
-  </ul>
+  </div>
   <ul class="nav nav-pills col-lg-offset-6 col-md-offset-6 col-lg-2">
       <li class="active" vid="radarPill"><a>Radar</a></li>
       <li id="mapPill"><a>Map</a></li>
@@ -125,15 +125,15 @@ function callback(results, status) {
       createMarker(results[i],"red");
 
       if(results[i].photos !== undefined){
-      $("#media-list").append("<li class='media col-lg-12' ><div class='map-list-item'><div class='media-left'><img width ='85' pxclass='media-object' src='"  + results[i].photos[0].getUrl({
+      $("#media-list").append("<div class='media col-lg-12' ><div class='map-list-item'><div class='media-left'><img width ='85' pxclass='media-object' src='"  + results[i].photos[0].getUrl({
             'maxWidth': 65,
             'maxHeight': 45,
         })
       +"' alt='test'></a></div><div class='media-body'><h5 class='media-heading'>" + results[i].name +"</h4><p>" + results[i].vicinity +".</p></div><div class='media-left media-top'>" + getStars(results[i].rating)  
-       + "</div></div></li>");
+       + "</div></div></div>");
          }else{
-          $("#media-list").append("<li class='media col-lg-12'><div  class='map-list-item'><div class='media-left'><img width ='40' height='40' pxclass='media-object' src='" + results[i].icon +"' alt='test'></div><div class='media-body'><h5 class='media-heading'>" + results[i].name +"</h4><p>" + results[i].vicinity +".</p></div><div class='media-left media-top'><div>" + getStars(results[i].rating)  
-       + "</div></div></div></li>");
+          $("#media-list").append("<div class='media col-lg-12'><div  class='map-list-item'><div class='media-left'><img width ='40' height='40' pxclass='media-object' src='" + results[i].icon +"' alt='test'></div><div class='media-body'><h5 class='media-heading'>" + results[i].name +"</h4><p>" + results[i].vicinity +".</p></div><div class='media-left media-top'><div>" + getStars(results[i].rating)  
+       + "</div></div></div></div>");
          }
         
     }
@@ -269,6 +269,7 @@ $('.list-group-item').click(function(){
   getPlaces(orgn, map);
 
 });
+$('#map-container').toggle();
 $(document).ready(function(){
   $('#map-container').toggle();
   $('#map-container').toggle();
