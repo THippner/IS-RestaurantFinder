@@ -1,18 +1,11 @@
 // Radar Java Script for Restaurant Finder
 
 
-// Dataset
-var center = [55.123, 65.123];
+// <<<<<<< HEAD
+// // Dataset 
+//!!!!!!!!!! merge conflict wasnt sure which center to keep
+// var center = [55.123, 65.123];
 
-// this should be replaced with actual data pulled from G-Maps
-var restaurants = [
-					[56.321, 70.123, 4],
-					[53.321, 62.123, 3.5],
-					[57.321, 68.123, 1],
-					[55.321, 55.123, 5],
-					[51.321, 76.123, 2],
-				];
-				
 
 // Called to update your array every time map data is updated
 function loadRadar(results){
@@ -20,6 +13,38 @@ function loadRadar(results){
 results[0].geometry.location.lat();
 results[0].geometry.location.lng();
 }
+
+
+// this should be replaced with actual data pulled from G-Maps
+var center = [55.8574, -4.256899];
+var restaurants = [ // lat, long, rating, distance
+					[55.857126, -4.25743, 1, 0],
+					[55.857183, -4.257108, 2, 0],
+					[55.857738, -4.25596, 3, 0],
+					[55.857876, -4.257022, 4, 0],
+					[55.857545, -4.257296, 5, 0],
+				];
+
+// get distance form center to points
+
+for(i = 0; i < restaurants.length; i++){
+	
+	var point1 = {
+		latitude: center[0],
+		longitude: center[1]
+	};
+	
+	var point2 = {
+		latitude: restaurants[i][0],
+		longitude: restaurants[i][1]
+	};
+		
+	restaurants[i][3] = distance(point1, point2);	
+}
+
+
+				
+
 
 
 
@@ -30,7 +55,13 @@ for(i = 0; i < restaurants.length; i++){
 	restaurants[i][1] -= center[1];				
 }
 
+<<<<<<< HEAD
 	
+=======
+
+
+			
+>>>>>>> fd58c5ab85eefd9dc4137ef95ca508e49057944d
 // SVG attrib
 var svg_w = 500;
 var svg_h = svg_w; // square
@@ -38,15 +69,22 @@ var svg_h = svg_w; // square
 
 
 // Create scales for restaurant dost
+
+// find absolute highets value and scale to it in both ways
+
+var max_val = absMax(restaurants);
+//var max
 var xScaleDot = d3.scale.linear()
-	.domain([d3.min(restaurants, function(d){ return d[0]; }),
-			d3.max(restaurants, function(d){ return d[0]; })])
-	.range([svg_w/5, svg_w - svg_w/5]); // padded range
+	.domain([-max_val , max_val])	
+	.range([svg_w/8, svg_w - svg_w/8]); // padded range
+		
 				
-var yScaleDot = d3.scale.linear()
-	.domain([d3.min(restaurants, function(d){ return d[1]; }),
-			d3.max(restaurants, function(d){ return d[1]; })])
-	.range([svg_h/5, svg_h - svg_h/5]); // padded range
+//var yScaleDot = d3.scale.linear()
+//	.domain([d3.min(restaurants, function(d){ return d[1]; }),
+//			d3.max(restaurants, function(d){ return d[1]; })])
+//	.range([svg_h/5, svg_h - svg_h/5]); // padded range
+
+
 
 var rtgScaleDot = d3.scale.linear()
 	.domain([1, 5])
@@ -153,8 +191,8 @@ svg.selectAll("dot")
 	.enter()
 	.append("circle")
 	.attr("class", "dot")
-	.attr("cx", function(d){ return xScaleDot(d[0]);})
-	.attr("cy", function(d){ return yScaleDot(d[1]);})
+	.attr("cx", function(d){ return xScaleDot(d[1]);})
+	.attr("cy", function(d){ return svg_h - xScaleDot(d[0]);})
 	.attr("r", function(d){ return rtgScaleDot(d[2]);})
 	.attr("fill", function(d){
 		// change color based on rating
@@ -163,6 +201,7 @@ svg.selectAll("dot")
 		else if (rating >= 2.5 && rating < 4) return "#e5e600";
 		else return "#00cc00";					
 		});
+	//.attr("transform", "rotate("+ -90 +"," + svg_w/2 + "," + svg_h/2 + ")"); // correction of svg coordinates to normal coordinates
 
 // rating values
 svg.selectAll("dot-text")
@@ -171,13 +210,86 @@ svg.selectAll("dot-text")
 		.append("text")
 		.attr("class", "dot-text")
 		.text(function(d){ return d[2];})
-		.attr("x", function(d){ return xScaleDot(d[0]);})
-		.attr("y", function(d){ return yScaleDot(d[1]);})
+		.attr("x", function(d){ return xScaleDot(d[1]);})
+		.attr("y", function(d){ return svg_h - xScaleDot(d[0]);})
 		.attr("font-size", function(d){ return rtgScaleTxt(d[2]) + "px"; })									
 		.attr("text-anchor", "middle")
 		.attr("dominant-baseline", "middle");
 
-		
+// Radar range text
+
+
+
+svg.append("text").attr("class", "radar-range-text")
+			.text(function(){
+				var max_dot_distance = d3.max(restaurants, function(d){ return d[3];});
+				var max_dot_x = svg_w - svg_w/8 - svg_w/2;
+				var this_x = radar_circ_body.attr("r") * 1 / 3				
+				a = (max_dot_distance * this_x) / max_dot_x; 
+				
+				return Math.round(a) + "m";
+				
+				
+			})
+			.attr("x", svg_w/2 + radar_circ_body.attr("r") * 1 / 3)
+			.attr("y", svg_h/2)
+			.attr("font-size", "17px") // TODO change to scaling with size			
+			.attr("text-anchor", "middle")
+			.attr("dominant-baseline", "hanging");
+					
+svg.append("text").attr("class", "radar-range-text")
+			.text(function(){
+				var max_dot_distance = d3.max(restaurants, function(d){ return d[3];});
+				var max_dot_x = svg_w - svg_w/8 - svg_w/2;
+				var this_x = radar_circ_body.attr("r") * 2 / 3				
+				a = (max_dot_distance * this_x) / max_dot_x; 
+				
+				return Math.round(a) + "m";
+				
+				
+			})
+			.attr("x", svg_w/2 + radar_circ_body.attr("r") * 2 / 3)
+			.attr("y", svg_h/2)
+			.attr("font-size", "17px")	// TODO change to scaling with size		
+			.attr("text-anchor", "middle")
+			.attr("dominant-baseline", "hanging");
+			
+
+// North indicator
+
+svg.append("polygon")
+	.attr("class", "north-indicator")
+	.attr("points", (svg_w/2 - radar_pad*4) + "," + 0 + " " +
+					(svg_w/2 + radar_pad*4) + "," + 0 + " " +
+					svg_w/2 + "," + radar_pad*5)
+	.attr("stroke-width" , radar_pad/3);
+	
+					
+					
+					
+svg.append("text").attr("class", "radar-range-text")
+	.text("N")
+	.attr("x", svg_w/2)
+	.attr("y", radar_pad*3)
+	.attr("text-anchor", "middle")
+	.attr("font-size", "25px"); // TODO change to scaling with size
+
+// Testing code ********************************************** Testing code
+//var range1 = document.getElementByClass
+
+//svg.selectAll("text-distance")
+//		.data(restaurants)
+//		.enter()
+//		.append("text")
+//		.attr("class", "text-distance")
+//		.text(function(d){ return d[3] + "m";})
+//		.attr("x", function(d){ return xScaleDot(d[1])+20;})
+//		.attr("y", function(d){ return svg_h - xScaleDot(d[0])+20;})
+//		.attr("font-size", function(d){ return rtgScaleTxt(d[2]) + "px"; })									
+//		//.attr("text-anchor", "middle")
+//		.attr("dominant-baseline", "middle")
+//		.attr("fill", "gray");
+	
 	
 	
 // Helper Functions ***************************************** Helper Functions	
@@ -186,6 +298,73 @@ svg.selectAll("dot-text")
 d3.timer(function() {
 	var delta = (Date.now() - t0);
 	detector.attr("transform", "rotate("+ delta / 5 +"," + svg_w/2 + "," + svg_h/2 + ")");
+<<<<<<< HEAD
 });	
 // map code -------------------------------------------------------------------------------------------------
 
+=======
+});
+
+// Find absoulte maximum of latitude/longitude
+function absMax(data){
+	
+	var max = 0;
+	for(i = 0; i < data.length; i++){
+			
+		var i_max = Math.max(Math.abs(data[i][0]), Math.abs(data[i][1]));
+		if(i_max > max) max = i_max;
+		
+	}
+	
+	return max;
+}
+
+// Convert value to radians
+function toRadians(value){	
+	return value * Math.PI / 180;
+}
+
+// Calculate distance between two points
+// returns distance between two points in meters
+function distance(point1, point2){
+	
+	var R = 6371000; // earth radius in meters
+	
+	// center point
+	var lat1 = toRadians(point1.latitude);
+	var lon1 = toRadians(point1.longitude);
+	
+	// distant point
+	var lat2 = toRadians(point2.latitude);
+	var lon2 = toRadians(point2.longitude);
+	
+	// calculate deltas
+	var dlat = lat2 - lat1;
+	var dlon = lon2 - lon1;
+	
+	// calculate mathy things oO
+	var a = Math.sin(dlat/2) * Math.sin(dlat/2) + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dlon/2) * Math.sin(dlon/2);
+	var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+	
+	// calculate distance
+	var d = R * c;
+	
+	 	
+	return Math.round(d);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			
+>>>>>>> fd58c5ab85eefd9dc4137ef95ca508e49057944d
