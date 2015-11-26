@@ -54,6 +54,10 @@
       margin-right: 5px;
 
     }
+
+    .navbar-header{
+      border-radius: 20px;
+    }
         
     </style>
 </head>
@@ -156,7 +160,7 @@ function initMap() {
 
 function callback(results, status) {
   $("#media-list").empty();
-  loadRadar(results);
+  loadRadar(results, orgn);
   placeResults = results;
   if (status === google.maps.places.PlacesServiceStatus.OK) {
     for (var i = 0; i < results.length; i++) {

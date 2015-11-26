@@ -7,8 +7,11 @@
 
 
 // Called to update your array every time map data is updated
-function loadRadar(results){
+function loadRadar(results, orgn){
 	// Use these to get coordinates
+orgn.lat;
+orgn.lng;
+
 results[0].geometry.location.lat();
 results[0].geometry.location.lng();
 }
