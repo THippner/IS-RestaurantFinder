@@ -84,13 +84,13 @@
 			
 .dot-text {
 	fill: black;
-	font-family: sans-serif;				
+	font-amily: sans-serif;				
 }
-/*#radar-location{
+#radar-location{
         display:none
-}*/
+}
 #map-container{
-        display:none
+        
 }
 #map0{
 	width:160px;

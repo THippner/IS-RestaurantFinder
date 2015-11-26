@@ -1,7 +1,6 @@
 // Radar Java Script for Restaurant Finder
 
 
-
 // Dataset
 var center = [55.123, 65.123];
 
@@ -14,14 +13,24 @@ var restaurants = [
 					[51.321, 76.123, 2],
 				];
 				
+
+// Called to update your array every time map data is updated
+function loadRadar(results){
+	// Use these to get coordinates
+results[0].geometry.location.lat();
+results[0].geometry.location.lng();
+}
+
+
+
 // Process the data for restaruants dots
 // change values to ones relative to the center point			
 for(i = 0; i < restaurants.length; i++){
-	restaurants[i][0] -= center[0];
+	restaurants[i][0] -=  center[0];
 	restaurants[i][1] -= center[1];				
-}			
+}
 
-			
+	
 // SVG attrib
 var svg_w = 500;
 var svg_h = svg_w; // square
@@ -60,7 +69,7 @@ var svg = d3.select("#radar-location").append("svg")
 	.attr("display", "block")
 	.style("margin-left", "auto")
 	.style("margin-right", "auto");
-	
+svg.selectAll("*").empty();
 // Radar Circle Body
 
 var radar_circ_body = svg.append("circle")
@@ -177,5 +186,6 @@ svg.selectAll("dot-text")
 d3.timer(function() {
 	var delta = (Date.now() - t0);
 	detector.attr("transform", "rotate("+ delta / 5 +"," + svg_w/2 + "," + svg_h/2 + ")");
-});
-			
+});	
+// map code -------------------------------------------------------------------------------------------------
+
