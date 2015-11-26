@@ -55,8 +55,9 @@
 
     }
 
-    .navbar-header{
-      border-radius: 20px;
+    .navbar-static-top{
+      margin-top:10px;
+      border-radius: 5px;
     }
         
     </style>
@@ -143,7 +144,8 @@ var directionsService
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
     center: orgn,
-    zoom: 15
+    zoom: 15,
+    rankBy: google.maps.places.RankBy.DISTANCE
   });
 
   infowindow = new google.maps.InfoWindow();
@@ -282,8 +284,9 @@ function getPlaces(loc, map){
    var service = new google.maps.places.PlacesService(map);
         service.nearbySearch({
         location: loc,
-        radius: 500,
-        types: [type]
+        radius: 600,
+        types: [type],
+
         }, callback);
 }
 
