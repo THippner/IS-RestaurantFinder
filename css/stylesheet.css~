@@ -86,13 +86,16 @@
 	fill: black;
 	font-family: sans-serif;				
 }
+
 <<<<<<< HEAD
+=======
 /*#radar-location{
         display:none
 }*/
 #map-container{
         display:none
-=======
+	}
+>>>>>>> 145d5993127e5ffa38ff4cb8655cb711aace63bc
 
 .radar-range-text {
 	fill: white;
@@ -104,11 +107,15 @@
 	stroke: #0000FF;	
 	}
 
+<<<<<<< HEAD
+
+=======
 /* Map styles ******************************************************** */
 #map{
 	visibility: hidden;
->>>>>>> fd58c5ab85eefd9dc4137ef95ca508e49057944d
+
 }
+>>>>>>> 145d5993127e5ffa38ff4cb8655cb711aace63bc
 #map0{
 	width:160px;
 	height:80px;
