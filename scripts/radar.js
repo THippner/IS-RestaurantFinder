@@ -54,7 +54,7 @@ var svg_h = svg_w; // square
 var max_val = absMax(restaurants);
 //var max
 var xScaleDot = d3.scale.linear()
-	.domain([-max_val , max_val])
+	.domain([-max_val , max_val])	
 	.range([svg_w/8, svg_w - svg_w/8]); // padded range
 		
 				
@@ -194,24 +194,61 @@ svg.selectAll("dot-text")
 		.attr("font-size", function(d){ return rtgScaleTxt(d[2]) + "px"; })									
 		.attr("text-anchor", "middle")
 		.attr("dominant-baseline", "middle");
-		//.attr("transform", "rotate("+ -90 +"," + svg_w/2 + "," + svg_h/2 + ") rotate(90)"); // correction of svg coordinates to normal coordinates
-		
-//svg.selectAll("dot-text").attr("transform", "");
+
+// Radar range text
+
+
+
+svg.append("text").attr("class", "radar-range-text")
+			.text(function(){
+				var max_dot_distance = d3.max(restaurants, function(d){ return d[3];});
+				var max_dot_x = svg_w - svg_w/8 - svg_w/2;
+				var this_x = radar_circ_body.attr("r") * 1 / 3				
+				a = (max_dot_distance * this_x) / max_dot_x; 
+				
+				return Math.round(a) + "m";
+				
+				
+			})
+			.attr("x", svg_w/2 + radar_circ_body.attr("r") * 1 / 3)
+			.attr("y", svg_h/2)
+			.attr("font-size", "17px")			
+			.attr("text-anchor", "middle")
+			.attr("dominant-baseline", "hanging");
+					
+svg.append("text").attr("class", "radar-range-text")
+			.text(function(){
+				var max_dot_distance = d3.max(restaurants, function(d){ return d[3];});
+				var max_dot_x = svg_w - svg_w/8 - svg_w/2;
+				var this_x = radar_circ_body.attr("r") * 2 / 3				
+				a = (max_dot_distance * this_x) / max_dot_x; 
+				
+				return Math.round(a) + "m";
+				
+				
+			})
+			.attr("x", svg_w/2 + radar_circ_body.attr("r") * 2 / 3)
+			.attr("y", svg_h/2)
+			.attr("font-size", "17px")			
+			.attr("text-anchor", "middle")
+			.attr("dominant-baseline", "hanging");
+			
 
 // Testing code ********************************************** Testing code
+//var range1 = document.getElementByClass
 
-svg.selectAll("text-distance")
-		.data(restaurants)
-		.enter()
-		.append("text")
-		.attr("class", "text-distance")
-		.text(function(d){ return d[3] + "m";})
-		.attr("x", function(d){ return xScaleDot(d[1])+20;})
-		.attr("y", function(d){ return svg_h - xScaleDot(d[0])+20;})
-		.attr("font-size", function(d){ return rtgScaleTxt(d[2]) + "px"; })									
-		//.attr("text-anchor", "middle")
-		.attr("dominant-baseline", "middle")
-		.attr("fill", "gray");
+//svg.selectAll("text-distance")
+//		.data(restaurants)
+//		.enter()
+//		.append("text")
+//		.attr("class", "text-distance")
+//		.text(function(d){ return d[3] + "m";})
+//		.attr("x", function(d){ return xScaleDot(d[1])+20;})
+//		.attr("y", function(d){ return svg_h - xScaleDot(d[0])+20;})
+//		.attr("font-size", function(d){ return rtgScaleTxt(d[2]) + "px"; })									
+//		//.attr("text-anchor", "middle")
+//		.attr("dominant-baseline", "middle")
+//		.attr("fill", "gray");
 	
 	
 	

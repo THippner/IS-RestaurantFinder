@@ -84,9 +84,15 @@
 			
 .dot-text {
 	fill: black;
-	font-amily: sans-serif;				
+	font-family: sans-serif;				
 }
 
+.radar-range-text {
+	fill: white;
+	font-family: sans-serif;
+	}
+
+/* Map styles ******************************************************** */
 #map{
 	visibility: hidden;
 }
