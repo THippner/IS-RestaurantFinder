@@ -5,6 +5,7 @@
    <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/stylesheet.css">
 
 <!-- jQuery library -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -13,12 +14,12 @@
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <title>Restaurant Radar Map</title>
     
-     <script src="https://maps.googleapis.com/maps/api/js?libraries=places&callback=initMap"
-        async defer></script>
+     
+        <script type="text/javascript" src="lib/d3/d3.js"></script> <!-- D3 Libraries -->
     
     <style>
         #map {
-        width:50%;
+        width:80%;
         height: 550px;
       
         }
@@ -59,27 +60,36 @@
 <body>
 <div class="container"> 
 
-  <div class="col-lg-offset-6">
-    <input id="address" type="text" class="input-sm" placeholder="Enter place or post code">
-    <input id="submit" type="button" class="btn btn-default btn-sm" value="update location">
-    </div>
+  
  <!-- <div class="row"> -->
    
   <ul class="medialist col-md-4 col-lg-4" id="media-list">
 
   </ul>
-  
-<div id="map" class="col-lg-4"></div>   
+  <ul class="nav nav-pills col-lg-offset-6 col-md-offset-6 col-lg-2">
+      <li class="active" vid="radarPill"><a>Radar</a></li>
+      <li id="mapPill"><a>Map</a></li>
+    </ul>
+<div id="radar-location" class="col-lg-6 col-md-6"></div>
+<!--  Div to contain radar svg  -->
+<div class="col-lg-8" id="map-container">
+    
+    <div class="col-lg-offset-3">
+    <input id="address" type="text" class="input-sm" placeholder="Enter place or post code">
+    <input id="submit" type="button" class="btn btn-default btn-sm" value="update location">
+    </div>
+<div id="map" class="col-lg-10"></div>   
 
 <div class="list-group col-lg-2">
   <button type="button" class="list-group-item list-group-item-success" >Restaurant</button>
   <button type="button" class="list-group-item" >Cafe</button>
   <button type="button" class="list-group-item" >Bar</button>
 </div>
-<!-- </div> -->
 </div>
+<!-- </div> -->
+
+
 <script>
-    KEY='AIzaSyBtQPpmqtJfSEktcwpe11JeNEJ2TXky6xI'
 var map;
 var infowindow;
 var places;
@@ -107,9 +117,13 @@ function initMap() {
 }
 
 function callback(results, status) {
+  $("#media-list").empty();
+  loadRadar(results);
+  placeResults = results;
   if (status === google.maps.places.PlacesServiceStatus.OK) {
     for (var i = 0; i < results.length; i++) {
       createMarker(results[i],"red");
+
       if(results[i].photos !== undefined){
       $("#media-list").append("<li class='media col-lg-12' ><div class='map-list-item'><div class='media-left'><img width ='85' pxclass='media-object' src='"  + results[i].photos[0].getUrl({
             'maxWidth': 65,
@@ -255,8 +269,31 @@ $('.list-group-item').click(function(){
   getPlaces(orgn, map);
 
 });
+$(document).ready(function(){
+  $('#map-container').toggle();
+  $('#map-container').toggle();
+})
+ 
+$('.nav-pills li').click(function(){
+  $(this).toggleClass( 'active' );
+  $(this).siblings().removeClass( 'active');
+  
+  
+  $('#radar-location').toggle("slow");
+  $('#map-container').toggle();
+  initMap();
+  $(this).delay(3000, function(){
+    
+  });
+  
+  
+
+
+});
 
 </script>
-
+<script src="https://maps.googleapis.com/maps/api/js?libraries=places&callback=initMap"
+        async defer></script>
+<script type="text/javascript" src="scripts/radar.js"></script> <!-- Radar Script 
 </body>
 </html>

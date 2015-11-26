@@ -1,6 +1,19 @@
 // Radar Java Script for Restaurant Finder
 
 
+// <<<<<<< HEAD
+// // Dataset 
+//!!!!!!!!!! merge conflict wasnt sure which center to keep
+// var center = [55.123, 65.123];
+
+
+// Called to update your array every time map data is updated
+function loadRadar(results){
+	// Use these to get coordinates
+results[0].geometry.location.lat();
+results[0].geometry.location.lng();
+}
+
 
 // this should be replaced with actual data pulled from G-Maps
 var center = [55.8574, -4.256899];
@@ -31,16 +44,24 @@ for(i = 0; i < restaurants.length; i++){
 
 
 				
+
+
+
+
 // Process the data for restaruants dots
 // change values to ones relative to the center point			
 for(i = 0; i < restaurants.length; i++){
-	restaurants[i][0] -= center[0];
+	restaurants[i][0] -=  center[0];
 	restaurants[i][1] -= center[1];				
-}			
+}
 
+<<<<<<< HEAD
+	
+=======
 
 
 			
+>>>>>>> fd58c5ab85eefd9dc4137ef95ca508e49057944d
 // SVG attrib
 var svg_w = 500;
 var svg_h = svg_w; // square
@@ -86,7 +107,7 @@ var svg = d3.select("#radar-location").append("svg")
 	.attr("display", "block")
 	.style("margin-left", "auto")
 	.style("margin-right", "auto");
-	
+svg.selectAll("*").empty();
 // Radar Circle Body
 
 var radar_circ_body = svg.append("circle")
@@ -300,6 +321,11 @@ svg.append("text").attr("class", "radar-range-text")
 d3.timer(function() {
 	var delta = (Date.now() - t0);
 	detector.attr("transform", "rotate("+ delta / 5 +"," + svg_w/2 + "," + svg_h/2 + ")");
+<<<<<<< HEAD
+});	
+// map code -------------------------------------------------------------------------------------------------
+
+=======
 });
 
 // Find absoulte maximum of latitude/longitude
@@ -364,3 +390,4 @@ function distance(point1, point2){
 
 
 			
+>>>>>>> fd58c5ab85eefd9dc4137ef95ca508e49057944d
