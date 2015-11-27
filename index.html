@@ -62,25 +62,32 @@
 	<body>
 	
 	
-	
-		<div id="serachField">
-			<div id="postcodeFieldDiv">
-				<form>
-					<input id="postcodeField" type="field" name="postcode" placeholder="Postcode">
-				</form>
+		<div id="banner"><a class="col-md-offset-11" id="loginLink" href="login.html">Log in</a></div>
+		<div id="serachField" >
+			<div id="searchFieldDiv">
+				<div id="postcodeFieldDiv" class="col-md-2 col-md-offset-4">
+					<form>
+						<input id="postcodeField" class="col-md-12 type="field" name="postcode" placeholder="Postcode">
+					</form>
+				</div>
+				<div id="searchDiv">
+					<button class="col-md-1" id="searchButton" onclick="getUserInputLocation()">Search</button>
+				</div>
 			</div>
-			<div id="locationButtonDiv">
+
+			<div id="locationButtonDiv" class="col-md-2 col-md-offset-5">
 				<button id="locationButton" onclick="getLocation()">Use Current Location</button>
-				<a id="loginLink" href="login.html">Log in</a>
+					
 			</div>
-			<div id="errorMessageDiv">
+			<div id="errorMessageDiv" class="col-md-2 col-md-offset-5">
 				<!--Place holder to display error message of geocaching -->
 				<p id="errorMessage"></p>
 			</div>
+
 		</div>
 		
 		
-		<div id="radar-location"> <!-- Div to contain radar svg -->	
+		<!-- <div id="radar-location"> <!-- Div to contain radar svg -->	
 		
 					
 		</div>
@@ -94,8 +101,12 @@
 			http://www.w3schools.com/html/tryit.asp?filename=tryhtml5_geolocation -->
 			<div id="map" class="col-lg-4"></div> 
 		<script>
+			function getUserInputLocation(){
+				var location=document.getElementById("postcodeField").innerHTML;
+			}
+			
 			var x = document.getElementById("errorMessage");
-
+			
 			function getLocation() {
 				if (navigator.geolocation) {
 					navigator.geolocation.getCurrentPosition(showPosition);
@@ -275,6 +286,6 @@ function getPlaces(loc, map){
 	
 	</body>
 
-	<script type="text/javascript" src="scripts/radar.js"></script> <!-- Radar Script -->
+	<!--- <script type="text/javascript" src="scripts/radar.js"></script> <!-- Radar Script -->
 
 </html>

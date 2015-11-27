@@ -1,62 +1,19 @@
 /* Index Page styles ************************************************ */
 
+#banner{
+	background-color:black;
+	min-height: 2%;
+	
+}
 
 #serachField{
-	position: absolute;
-	width: 98%;
-	height: 50%;				
-}
-
-#topFiveListField{
-	position: absolute;
-	bottom: 0;
-	width: 98%;
-	height: 50%;	
-
-	border: 1px solid grey;				
-}
-
-#errorMessageDiv{
-	position: absolute;
-	bottom: 1%;
-	left: 50%;
-	transform: translate(-50%);
-	width: 50%;
-	height: 10%;
-}
-
-#postcodeFieldDiv{
-	position: absolute;
-	top: 0;
-	left: 0;
-	height:85%;
-	width: 50%;
-}
-
-#locationButtonDiv{
-	position: absolute;
-	top: 0;
-	right: 0;
-	height:85%;
-	width: 50%;
-}
-
-#postcodeField{
-	position: absolute;
-	bottom: 0;
-	right: 0;
-}
-
-#locationButton{
-	position: absolute;
-	bottom: 0;
-	left: 0;
+	padding: 5%;				
 }
 
 #loginLink{
-	position: absolute;
 	top: 0;
 	right: 0;
+	color: white;
 }
 
 /* Radar styles ***************************************************** */
