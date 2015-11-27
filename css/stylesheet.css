@@ -2,9 +2,8 @@
 
 
 #serachField{
-	
-	height: 80px;
-	margin-top:100px;				
+	margin-top:100px;
+	height: 80px;				
 }
 
 #topFiveListField{
@@ -51,6 +50,8 @@
 	position: absolute;
 	bottom: 0;
 	left: 0;
+	width:200px;
+
 }
 
 #loginLink{
