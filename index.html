@@ -6,7 +6,6 @@
 		
 		<link rel="stylesheet" type="text/css" href="css/stylesheet.css">
 		
-		<script type="text/javascript" src="lib/d3/d3.js"></script> <!-- D3 Libraries -->
 	    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
 <!-- jQuery library -->
@@ -16,14 +15,11 @@
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <title>Restaurant Radar Map</title>
     
-     <script src="https://maps.googleapis.com/maps/api/js?libraries=places&callback=initMap"
-        async defer></script>
-    
     <style>
         #map {
         width:50%;
-        height: 550px;
-      
+        height: 300px;
+        
         }
         .btn{
           margin-bottom:10px;
@@ -56,58 +52,114 @@
       margin-right: 5px;
 
     }
+    .navbar-static-top{
+      margin-top:10px;
+      border-radius: 5px;
+      background-color: black;
+    }
+    .navbar-right{
+    	margin-right:80px;
+    }
         
     </style>
 	</head>
 	<body>
-	
-	
-	
-		<div id="serachField">
-			<div id="postcodeFieldDiv">
-				<form>
-					<input id="postcodeField" type="field" name="postcode" placeholder="Postcode">
-				</form>
-			</div>
-			<div id="locationButtonDiv">
-				<button id="locationButton" onclick="getLocation()">Use Current Location</button>
-				<a id="loginLink" href="login.html">Log in</a>
-			</div>
-			<div id="errorMessageDiv">
-				<!--Place holder to display error message of geocaching -->
-				<p id="errorMessage"></p>
-			</div>
-		</div>
-		
-		
-		<div id="radar-location"> <!-- Div to contain radar svg -->	
-		
-					
-		</div>
-		<div class="medialist col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-2" id="media-list">
-        </div>
-		
-		
-		
-		<!-- 
-			javascript for geocaching is taken from:
-			http://www.w3schools.com/html/tryit.asp?filename=tryhtml5_geolocation -->
-			<div id="map" class="col-lg-4"></div> 
-		<script>
-			var x = document.getElementById("errorMessage");
+	    <div class="navbar-wrapper">
+      <div class="container">
 
+        <nav class="navbar navbar-inverse navbar-static-top">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#">Restaurant Radar</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+              <ul class="nav navbar-nav">
+                
+                <li><img width="50" height="50"src="radar.png"/></li>
+                <!-- <li><a href="#about">About</a></li> -->
+                <!-- <li class="dropdown"> -->
+                 <!--  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a> -->
+                 <!--  <ul class="dropdown-menu">
+                    <li><a href="#">Action</a></li>
+                    <li><a href="#">Another action</a></li>
+                    <li><a href="#">Something else here</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li class="dropdown-header">Nav header</li>
+                    <li><a href="#">Separated link</a></li>
+                    <li><a href="#">One more separated link</a></li>
+                  </ul> -->
+                <!-- </li> -->
+                
+              </ul>
+              <ul class="nav navbar-nav navbar-right">
+                  <li><a href="login.html"><strong>Login</strong></a></li>
+                  <li></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+      </div>
+    </div>
+	    <div class="container">
+	    
+			<div class="medialist col-md-6 col-lg-6 " id="media-list">
+			<h2 class="col-md-offset-2 col-lg-offset-1">Top five rated restaurants nearby </h2>
+	        </div>
+			
+			
+			
+			<!-- 
+				javascript for geocaching is taken from:
+				http://www.w3schools.com/html/tryit.asp?filename=tryhtml5_geolocation -->
+
+			<div id="serachField" class="col-md-6">
+				<div id="postcodeFieldDiv">
+					<form>
+						<input id="postcodeField" type="field" name="postcode" placeholder="Postcode">
+					</form>
+				</div>
+				<div id="locationButtonDiv">
+					<button id="locationButton" onclick="getLocation()">Use Current Location</button>
+					<!-- <a id="loginLink" href="login.html">Log in</a> -->
+				</div>
+				<div id="errorMessageDiv">
+					<!--Place holder to display error message of geocaching -->
+					<p id="errorMessage"></p>
+				</div>
+			</div>
+			<br>
+			<br>
+				<div id="map" class="col-lg-4"></div> 
+
+				</div>
+			 <script src="https://maps.googleapis.com/maps/api/js?libraries=places&callback=initMap"
+        async defer></script>
+		<script>
+			$('#postcodeField').keypress(function (e) {
+            if(e.which ==13)
+             window.location.href='map.html';
+            });
 			function getLocation() {
-				if (navigator.geolocation) {
-					navigator.geolocation.getCurrentPosition(showPosition);
-				} else { 
-				x.innerHTML = "Geolocation is not supported by this browser.";
-			}
+				// if (navigator.geolocation) {
+				// 	navigator.geolocation.getCurrentPosition(showPosition);
+				// } else { 
+				// x.innerHTML = "Geolocation is not supported by this browser.";
+				window.location.href='map.html';
+			// }
 		}
 			<!-- location is displayed purely for testing -->
-			function showPosition(position) {
-				x.innerHTML = "Latitude: " + position.coords.latitude + 
-				"<br>Longitude: " + position.coords.longitude;	
-			}
+			// function showPosition(position) {
+			// 	x.innerHTML = "Latitude: " + position.coords.latitude + 
+			// 	"<br>Longitude: " + position.coords.longitude;	
+			// 	window.location.href='map.html';
+			// }
 
 			var map;
 var infowindow;
@@ -140,21 +192,22 @@ function callback(results, status) {
     for (var i = 0; i < 5; i++) {
       createMarker(results[i],map);
       if(results[i].photos !== undefined){
-      $("#media-list").append("<div class='map-list-item media col-lg-9'><div class='media-left col-lg-3'><img width ='85' class='media-object' src='"  + results[i].photos[0].getUrl({
+      $("#media-list").append("<div class='map-list-item media col-lg-12'><div class='media-left col-lg-3'><img width ='85' class='media-object' src='"  + results[i].photos[0].getUrl({
             'maxWidth': 65,
             'maxHeight': 45,
         })
-      +"' alt='Restaurant image'/></div><div class='media-body class-lg-5 col-lg-offset-1'><h4 class='media-heading'>" + results[i].name +"</h4><p>" + results[i].vicinity +"</p>" + getStars(results[i].rating)  + "</div></div><div id='map" + i + "' class='col-lg-2'></div></div>");
+      +"' alt='Restaurant image'/></div><div class='media-body class-lg-5 col-lg-offset-1'><h4 class='media-heading'>" + results[i].name +"</h4><p>" + results[i].vicinity +"</p>" + getStars(results[i].rating)  + "</div></div></div>");
          }else{
-          $("#media-list").append("<div  class='map-list-item media col-lg-9'><div class='media-left col-lg-3'><img width ='40' height='40' class='media-object' src='" + results[i].icon +"' alt='Restaurant image'></div><div class='media-body col-lg-5 col-lg-offset-3''><h4 class='media-heading'>" + results[i].name +"</h4><p>" + results[i].vicinity +".</p>"+ getStars(results[i].rating)  
-       + "</div></div><div id='map" + i + "' class='col-lg-2'></div></div>");
+          $("#media-list").append("<div  class='map-list-item media col-lg-12'><div class='media-left col-lg-3'><img width ='40' height='40' class='media-object' src='" + results[i].icon +"' alt='Restaurant image'></div><div class='media-body col-lg-5 col-lg-offset-3''><h4 class='media-heading'>" + results[i].name +"</h4><p>" + results[i].vicinity +".</p>"+ getStars(results[i].rating)  
+       + "</div></div></div>");
          }
         // var location = {results[i].geometry.}
-        var newMap = new google.maps.Map(document.getElementById('map'+i), {
-        center: results[i].geometry.location,
-        zoom: 15
-         });
-        createMarker(results[i], newMap);
+        // var newMap = new google.maps.Map(document.getElementById('map'+i), {
+        // center: results[i].geometry.location,
+        // zoom: 15
+        //  });
+        // createMarker(results[i], newMap);
+        // <div id='map" + i + "' class='col-lg-2'></div>
     }
     places = results;
   }
@@ -275,6 +328,6 @@ function getPlaces(loc, map){
 	
 	</body>
 
-	<script type="text/javascript" src="scripts/radar.js"></script> <!-- Radar Script -->
+	
 
 </html>
