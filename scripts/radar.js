@@ -15,38 +15,31 @@
 
 
 // THIS WILL SHOW YOU VALUES IN CONSOLE WHEN YOU INSPECT
-console.log(orgn); // this works
-console.log(results); // this crashes
 
-var center = [orgn.lat, orgn.lng]; // This works
-var whatever = results[0].geometry.location.lat; // This doesnt
-
-
-
-
+// empty data to be filled later
+var center = [0, 0]; // 
 var restaurants = [ // lat, long, rating, distance
-					[55.857126, -4.25743, 1, 0],
-					[55.857183, -4.257108, 2, 0],
-					[55.857738, -4.25596, 3, 0],
-					[55.857876, -4.257022, 4, 0],
-					[55.857545, -4.257296, 5, 0],
+					[0, 0, 0, 0],
+					[0, 0, 0, 0],
+					[0, 0, 0, 0],
+					[0, 0, 0, 0],
+					[0, 0, 0, 0],
 				];
 
-
-
-// Called to update your array every time map data is updated
-function loadRadar(results, orgn){
-	// Use these to get coordinates
-
-
-//results[0].geometry.location.lat();
-//results[0].geometry.location.lng();
-}
+// fill data from global
+//	center[0] = orgn.lat;
+//	center[1] = orgn.lon;
+//for(i = 0; i < restaurants.legth; i++){
+//	
+//		restaurants[i][0] = results[i].geometry.location.lat();
+//		restaurants[i][1] = results[i].geometry.location.lng();
+//		restaurants[i][2] = results[i].rating();		
+//		
+//	}
 
 
 
 // get distance form center to points
-
 for(i = 0; i < restaurants.length; i++){
 	
 	var point1 = {
@@ -61,11 +54,6 @@ for(i = 0; i < restaurants.length; i++){
 		
 	restaurants[i][3] = distance(point1, point2);	
 }
-
-
-				
-
-
 
 
 // Process the data for restaruants dots
@@ -385,6 +373,25 @@ function distance(point1, point2){
 	return Math.round(d);
 }
 
+
+// Called to update your array every time map data is updated
+//function loadRadar(results, orgn){	
+//	
+//	console.log(orgn); // this works
+////	console.log(results); // this crashes
+//	
+
+//	
+//	for(i = 0; i < restaurants.legth; i++){
+//		restaurants[i][0] = results[i].geometry.location.lat();
+//		restaurants[i][1] = results[i].geometry.location.lng();
+//		restaurants[i][2] = results[i].rating();		
+//		
+//	}
+//
+//	console.log(restaurants[i][0] = results[i].geometry.location.lat());
+//	
+//}
 
 
 
