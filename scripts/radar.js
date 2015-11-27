@@ -17,7 +17,7 @@
 // THIS WILL SHOW YOU VALUES IN CONSOLE WHEN YOU INSPECT
 
 // empty data to be filled later
-var center = [0, 0]; // 
+var center = [0,0]; // 
 var restaurants = [ // lat, long, rating, distance
 					[0, 0, 0, 0],
 					[0, 0, 0, 0],
@@ -29,17 +29,25 @@ var restaurants = [ // lat, long, rating, distance
 // fill data from global
 //	center[0] = orgn.lat;
 //	center[1] = orgn.lon;
-//for(i = 0; i < restaurants.legth; i++){
-//	
-//		restaurants[i][0] = results[i].geometry.location.lat();
-//		restaurants[i][1] = results[i].geometry.location.lng();
-//		restaurants[i][2] = results[i].rating();		
-//		
-//	}
+function loadRadar(results, orgn){
+	d3.select("#radar-location").selectAll("*").remove();
+	center[0] = orgn.lat;
+	center[1] = orgn.lng;
+for(i = 0; i < restaurants.length; i++){
+	
+		restaurants[i][0] = results[i].geometry.location.lat();
+		restaurants[i][1] = results[i].geometry.location.lng();
+		if(results[i].rating == 0)
+			restaurants[i][2]= 1;
+		else
+		restaurants[i][2] = results[i].rating;
+		
+		
+	}
 
 
 
-// get distance form center to points
+// // get distance form center to points
 for(i = 0; i < restaurants.length; i++){
 	
 	var point1 = {
@@ -60,7 +68,9 @@ for(i = 0; i < restaurants.length; i++){
 // change values to ones relative to the center point			
 for(i = 0; i < restaurants.length; i++){
 	restaurants[i][0] -=  center[0];
-	restaurants[i][1] -= center[1];				
+	restaurants[i][1] -= center[1];	
+	restaurants[i][0] = restaurants[i][0] * 1000;
+	restaurants[i][1] = restaurants[i][1] * 1000;			
 }
 
 // SVG attrib
@@ -373,7 +383,7 @@ function distance(point1, point2){
 	return Math.round(d);
 }
 
-
+}
 // Called to update your array every time map data is updated
 //function loadRadar(results, orgn){	
 //	
