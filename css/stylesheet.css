@@ -2,11 +2,11 @@
 
 
 #serachField{
-	margin-top:100px;
+	margin-top:250px;
 	height: 80px;				
 }
 
-#topFiveListField{
+/*#topFiveListField{
 	position: absolute;
 	bottom: 0;
 	width: 98%;
@@ -22,43 +22,43 @@
 	transform: translate(-50%);
 	width: 50%;
 	height: 10%;
-}
+}*/
 
-#postcodeFieldDiv{
+/*#postcodeFieldDiv{
 	position: absolute;
 	top: 0;
 	left: 0;
 	height:85%;
 	width: 50%;
-}
+}*/
 
-#locationButtonDiv{
+/*#locationButtonDiv{
 	position: absolute;
 	top: 0;
 	right: 0;
 	height:85%;
 	width: 50%;
 }
-
-#postcodeField{
+*/
+/*#postcodeField{
 	position: absolute;
 	bottom: 0;
 	right: 0;
-}
+}*/
 
-#locationButton{
+/*#locationButton{
 	position: absolute;
 	bottom: 0;
 	left: 0;
 	width:200px;
 
-}
+}*/
 
-#loginLink{
+/*#loginLink{
 	position: absolute;
 	top: 0;
 	right: 0;
-}
+}*/
 
 /* Radar styles ***************************************************** */
 .radar-body {
