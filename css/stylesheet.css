@@ -41,7 +41,8 @@
 			
 .dot-text {
 	fill: black;
-	font-family: sans-serif;				
+	font-family: sans-serif;
+	pointer-events: none;				
 }
 
 .radar-range-text {
