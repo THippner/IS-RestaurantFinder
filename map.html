@@ -245,7 +245,8 @@ function createMarker(place, color) {
         map: resultsMap,
         position: results[0].geometry.location
         });
-
+       orgn.lat = marker.position.lat();
+       orgn.lng = marker.position.lng();
        getPlaces(marker.position, map);
 
     } else {
@@ -290,7 +291,7 @@ function getStars(rating){
     }
 }
 function getPlaces(loc, map){
-  orgn = loc;
+  // orgn = loc;
   var type = $('.list-group-item-success').html().toLowerCase();
   deleteMarkers();
    var service = new google.maps.places.PlacesService(map);

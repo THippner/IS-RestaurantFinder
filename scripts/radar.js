@@ -40,7 +40,7 @@ function loadRadar(results, orgn){
 		
 			restaurants[i][0] = results[i].geometry.location.lat();
 			restaurants[i][1] = results[i].geometry.location.lng();
-			if(results[i].rating == 0)
+			if(results[i].rating == 0 || results[i].rating == undefined)
 				restaurants[i][2]= 1;
 			else
 			restaurants[i][2] = results[i].rating;
