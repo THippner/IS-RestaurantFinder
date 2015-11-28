@@ -74,10 +74,23 @@
     #top-five-txt{
       margin-top:150px;  
     }
+    .mp-wrapper{
+      z-index:2;
+      position:relative
+    }
+    .mp-wrapper:hover{
+      
+
+      cursor: pointer !important;
+    }
+    .mp{
+      pointer-events: none !important;
+    }
     </style>
 	</head>
 	<body>
-       <img id="lost-image" src="lost.jpg" alt="image of lost person looking at phone"/>
+       <img id="lost-image" src="rest.jpg" alt="image of lost person looking at phone"/>
+       image from flicker 
 	    <div class="navbar-wrapper">
       <div class="container">
        
@@ -133,7 +146,7 @@
   </div><!-- /.col-lg-6 -->
 </div><!-- /.row -->
 			<div class="medialist col-md-10 col-lg-10 col-lg-offset-1" id="media-list">
-			<h2 class="col-md-offset-2 col-lg-offset-3" id="top-five-txt">Top five rated restaurants nearby </h2>
+			<h2 class="col-md-offset-2 col-lg-offset-4" id="top-five-txt">Popular restaurants </h2>
 	        </div>
 			
 			
@@ -219,14 +232,14 @@ function callback(results, status) {
     for (var i = 0; i < 5; i++) {
       createMarker(results[i],map);
       if(results[i].photos !== undefined){
-      $("#media-list").append("<div class='map-list-item media col-lg-12'><div class='media-left col-lg-3'><img width ='85' class='media-object' src='"  + results[i].photos[0].getUrl({
+      $("#media-list").append("<div class='map-list-item media col-lg-9'><div class='media-left col-lg-2'><img width ='85' class='media-object' src='"  + results[i].photos[0].getUrl({
             'maxWidth': 65,
             'maxHeight': 45,
         })
-      +"' alt='Restaurant image'/></div><div class='media-body class-lg-5 col-lg-offset-1'><h4 class='media-heading'>" + results[i].name +"</h4><p>" + results[i].vicinity +"</p>" + getStars(results[i].rating)  + "</div></div></div><div id='map" + i + "' class='col-lg-2'></div>");
+      +"' alt='Restaurant image'/></div><div class='media-body class-lg-3 col-lg-offset-3'><h4 class='media-heading'>" + results[i].name +"</h4><p>" + results[i].vicinity +"</p>" + getStars(results[i].rating)  + "</div></div><div class='mp-wrapper' onclick='getLocation()'><div id='map" + i + "' class='col-lg-2 mp'></div></div>");
          }else{
-          $("#media-list").append("<div  class='map-list-item media col-lg-10'><div class='media-left col-lg-3'><img width ='40' height='40' class='media-object' src='" + results[i].icon +"' alt='Restaurant image'></div><div class='media-body col-lg-5 col-lg-offset-3''><h4 class='media-heading'>" + results[i].name +"</h4><p>" + results[i].vicinity +".</p>"+ getStars(results[i].rating)  
-       + "</div></div><div id='map" + i + "' class='col-lg-2'></div></div>");
+          $("#media-list").append("<div  class='map-list-item media col-lg-9'><div class='media-left col-lg-3'><img width ='40' height='40' class='media-object' src='" + results[i].icon +"' alt='Restaurant image'></div><div class='media-body col-lg-3 col-lg-offset-3''><h4 class='media-heading'>" + results[i].name +"</h4><p>" + results[i].vicinity +".</p>"+ getStars(results[i].rating)  
+       + "</div></div><div class='mp-wrapper' onclick='getLocation()'><div  id='map" + i + "' class='col-lg-2 mp'></div></div>");
          }
         // var location = {results[i].geometry.location};
         var newMap = new google.maps.Map(document.getElementById('map'+i), {
@@ -338,19 +351,19 @@ function getPlaces(loc, map){
    var service = new google.maps.places.PlacesService(map);
         service.nearbySearch({
         location: loc,
-        radius: 500,
-        types: ['cafe', 'bar','restaurant']
+        radius:500,
+               types: ['cafe', 'bar','restaurant']
         }, callback);
 }
 
   // Set destination, origin and travel mode.
   
-// $('.list-group-item').click(function(){
-//   $(this).toggleClass( 'list-group-item-success' );
-//   $(this).siblings().removeClass( 'list-group-item-success');
-//   getPlaces(orgn, map);
+$('.mp').click(function(){
+  // $(this).toggleClass( 'list-group-item-success' );
+  // $(this).siblings().removeClass( 'list-group-item-success');
+  // getPlaces(orgn, map);
 
-// });
+});
 		</script>
 	
 	</body>
