@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Bootstrap CSS-->
+	  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="css/stylesheet.css">
+
+    <title>Your Profile - Restaurant Radar</title>
+    
+    <!--<style>
+      #map {
+        width:50%;
+        height: 300px;  
+      }
+
+      .glyphicon{
+        color: green;
+      }
+  
+      .map-list-item{
+        height:90px;
+      }
+  
+      .map-list-item:hover{
+        cursor: pointer;
+        cursor: hand;
+        background-color:lightGray;
+      }
+  
+      #media-list{
+        padding-right:5px;
+        height: 550px;      
+      }
+  
+      .media{
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        padding: 0px 1.5rem;
+      }
+  
+      .media-heading{
+        margin-right: 5px;
+      }
+  
+      #map{
+        display: none;
+      }
+  
+      #top-five-txt{
+        margin-top:150px;  
+      }
+  
+      .mp-wrapper{
+        z-index:2;
+        position:relative
+      }
+  
+      .mp-wrapper:hover{
+        cursor: pointer !important;
+      }
+  
+      .mp{
+        pointer-events: none !important;
+    }
+    </style>-->
+	</head>
+    <body>
+    <!-- Background -->
+    <img id="background" src="rest.jpg" alt="image of lost person looking at phone"/>
+
+    <!-- Navigation -->
+    <div class="navbar-wrapper">
+      <div class="container">
+        <nav class="navbar navbar-inverse navbar-static-top">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                 <span class="icon-bar"></span>
+                 <span class="icon-bar"></span>
+                 <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#">Restaurant Radar</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+              <ul class="nav navbar-nav">
+                <li><img width="50" height="50"src="radar.png"/></li>
+              </ul>
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="index.html"><strong>Logout</strong></a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="container">
+      <div id="userprofile">
+        <div class="col-md-6" id="userDetails">
+          <h1>Your profile</h1>
+          Here are the details we have on file for you:
+          <br><br>
+          <dl class="dl-horizontal">
+            <dt>Name</dt><dd>John Smith</dd>
+            <dt>Email</dt><dd>jsmith@example.com</dd>
+            <dt>Home Postcode</dt><dd>G1 1AA</dd>
+            <dt>Restaurants visited</dt><dd>14</dd>
+          </dl>
+        </div>
+        <div class="col-md-6" id="favourites">
+          <h1>Your retaurants</h1>
+          Here's the places you've visited and reviewed:
+          <br><br>
+          <div class="medialist" id="media-list">
+            <div class="map-list-item media col-md-12">
+              <div class="media-left col-md-2">
+                <img class="media-object" src="https://lh6.googleusercontent.com/-LjAArVcp3IE/VMlYx7FT9fI/AAAAAAAAAAc/LKRRsW3BmOo/w65-h45-k/" alt="Restaurant image" width="85">
+              </div>
+              <div class="media-body col-md-4">
+                <h4 class="media-heading">Princes Square Restaurants</h4>
+                <p>48 Buchanan Street, Glasgow &nbsp
+                <span class="glyphicon glyphicon-star"></span>
+                <span class="glyphicon glyphicon-star"></span>
+                <span class="glyphicon glyphicon-star"></span>
+                <span class="glyphicon glyphicon-star"></span></p>
+              </div>
+            </div>
+
+            <div class="map-list-item media col-md-12">
+              <div class="media-left col-md-2">
+                <img class="media-object" src="https://lh6.googleusercontent.com/-PE8MKJZBS3o/VNNRjdBUOXI/AAAAAAAASmM/YVKHcR2-hsY/w65-h45-k/" alt="Restaurant image" width="85">
+              </div>
+              <div class="media-body col-md-4">
+                <h4 class="media-heading">Urban Brasserie</h4>
+                <p>23-25 St. Vincent Place &nbsp
+                <span class="glyphicon glyphicon-star"></span>
+                <span class="glyphicon glyphicon-star"></span>
+                <span class="glyphicon glyphicon-star"></span>
+                <span class="glyphicon glyphicon-star"></span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- jQuery & Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  </body>
+</html>
