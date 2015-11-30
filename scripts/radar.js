@@ -19,16 +19,33 @@
 // empty data to be filled later
 var center = [0,0]; // 
 var restaurants = [ // lat, long, rating, distance
-					[0, 0, 0, 0],
-					[0, 0, 0, 0],
-					[0, 0, 0, 0],
-					[0, 0, 0, 0],
-					[0, 0, 0, 0],
+					[0, 0, 0, 0, 1],
+					[0, 0, 0, 0, 2],
+					[0, 0, 0, 0, 3],
+					[0, 0, 0, 0, 4],
+					[0, 0, 0, 0, 5],
 				];
 
 // fill data from global
 //	center[0] = orgn.lat;
 //	center[1] = orgn.lon;
+
+// d3 function to move elements to front
+d3.selection.prototype.moveToFront = function() {
+  return this.each(function(){
+	this.parentNode.appendChild(this);
+  });
+};
+
+// d3 function to move element to back
+d3.selection.prototype.moveToBack = function() { 
+    return this.each(function() { 
+        var firstChild = this.parentNode.firstChild; 
+        if (firstChild) { 
+            this.parentNode.insertBefore(this, firstChild); 
+        } 
+    }); 
+};
 
 
 function loadRadar(results, orgn){
@@ -45,7 +62,10 @@ function loadRadar(results, orgn){
 			else
 			restaurants[i][2] = results[i].rating;
 	}
+	
+	
 
+	
 	// get distance form center to points
 	for(i = 0; i < restaurants.length; i++){
 		
@@ -196,6 +216,9 @@ function loadRadar(results, orgn){
 		.enter()
 		.append("circle")
 		.attr("class", "dot")
+		.attr("id", function(d, i){
+			return "dot" + d[4];
+		})
 		.attr("cx", function(d){ return ScaleDot(d[1]);})
 		.attr("cy", function(d){ return svg_h - ScaleDot(d[0]);})
 		.attr("r", function(d){ return rtgScaleDot(d[2]);})
@@ -211,12 +234,30 @@ function loadRadar(results, orgn){
 				d3.select(this).attr("r", d3.select(this).attr("r")*1.1);
 				d3.select(this).attr("stroke", "#00ffff");
 				d3.select(this).attr("stroke-width", 3);
-				//this.parentNode.appendChild(this); // brings circle to front but not the text
+				
+				
+				
+				d3.select(this).moveToFront(); // brings circle to front
+				
+				var this_id = d3.select(this).attr("id");
+				var dottext = d3.select("#dottext" + this_id.substr(this_id.length - 1)); 
+				dottext.moveToFront(); // brings corresponsinf text to front
+				
 			})
 		.on("mouseout", function(d,i){ // shrink circle and remove its highlight border
 			    $('#listitem' + i).css('background-color','white');
 				d3.select(this).attr("r", d3.select(this).attr("r")*0.9);
 				d3.select(this).attr("stroke", "none");
+				
+				d3.select(this).order(); // brings circle to front
+				
+				//var this_id = d3.select(this).attr("id");
+				//var dottext = d3.select("#dottext" + this_id.substr(this_id.length - 1)); 
+				//dottext.moveToBack(); // brings corresponsinf text to front
+				
+				loadRadar(results, orgn);
+				
+				
 			})
 		.on("click", function(d) {
 			    
@@ -230,6 +271,9 @@ function loadRadar(results, orgn){
 		.enter()
 		.append("text")
 		.attr("class", "dot-text")
+		.attr("id", function(d, i){
+			return "dottext" + d[4];
+		})
 		.text(function(d){ return d[2];})
 		.attr("x", function(d){ return ScaleDot(d[1]);})
 		.attr("y", function(d){ return svg_h - ScaleDot(d[0]);})
