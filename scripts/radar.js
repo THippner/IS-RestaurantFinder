@@ -206,22 +206,20 @@ function loadRadar(results, orgn){
 			else if (rating >= 2.5 && rating < 4) return "#e5e600";
 			else return "#00cc00";					
 			})
-		.on("mouseover", function(){ // enrlage circle and give it a highlight border
-			    $('#listitem' + i).css('background-color','lightGray');
+		.on("mouseover", function(d,i){ // enrlage circle and give it a highlight border
+			    $('#listitem' + i).css('background-color','lightBlue');
 				d3.select(this).attr("r", d3.select(this).attr("r")*1.1);
 				d3.select(this).attr("stroke", "#00ffff");
 				d3.select(this).attr("stroke-width", 3);
 				//this.parentNode.appendChild(this); // brings circle to front but not the text
 			})
-		.on("mouseout", function(){ // shrink circle and remove its highlight border
-			    
+		.on("mouseout", function(d,i){ // shrink circle and remove its highlight border
+			    $('#listitem' + i).css('background-color','white');
 				d3.select(this).attr("r", d3.select(this).attr("r")*0.9);
 				d3.select(this).attr("stroke", "none");
 			})
 		.on("click", function(d) {
-			
-			// highlight list element coreposning to circle here
-			// TODO
+			    
 			
 			});
 		
