@@ -81,6 +81,9 @@
 
 #userprofile{
 	background-color: #FFF;
+	height: 100%;
+	border-radius: 5px;
+	padding-left: 1em;
 }
 
 #userDetails, #favourites{
