@@ -104,6 +104,10 @@
                   </ul> -->
                 </li>
               </ul>
+              <ul class="nav navbar-nav navbar-right">
+                  <li><a href="login.html"><strong>Login</strong></a></li>
+                  <li></li>
+              </ul>
             </div>
           </div>
         </nav>
@@ -297,7 +301,7 @@ function getPlaces(loc, map){
    var service = new google.maps.places.PlacesService(map);
         service.nearbySearch({
         location: loc,
-        radius: 600,
+        radius: 1000,
         types: [type],
 
         }, callback);

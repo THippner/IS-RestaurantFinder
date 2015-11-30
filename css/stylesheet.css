@@ -5,6 +5,9 @@
 	margin-top:250px;
 	height: 80px;				
 }
+.navbar-right{
+    	margin-right:80px;
+    }
 
 /*#topFiveListField{
 	position: absolute;
