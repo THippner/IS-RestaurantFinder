@@ -84,6 +84,9 @@
 
 #userprofile{
 	background-color: #FFF;
+	height: 100%;
+	border-radius: 5px;
+	padding-left: 1em;
 }
 
 #userDetails, #favourites{
@@ -115,7 +118,8 @@
 			
 .dot-text {
 	fill: black;
-	font-family: sans-serif;				
+	font-family: sans-serif;
+	pointer-events: none;				
 }
 
 .radar-range-text {
