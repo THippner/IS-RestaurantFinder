@@ -155,6 +155,11 @@ var orgn = {lat:55.8580, lng:-4.2590};
 var directionsDisplay;
 var directionsService
 function initMap() {
+  initBlankMap();
+  getPlaces(orgn,map);
+}
+
+function initBlankMap() {
   map = new google.maps.Map(document.getElementById('map'), {
     center: orgn,
     zoom: 15,
@@ -162,8 +167,7 @@ function initMap() {
   });
 
   infowindow = new google.maps.InfoWindow();
-  
-  getPlaces(orgn,map);
+
 
   geocoder = new google.maps.Geocoder();
 
@@ -203,10 +207,15 @@ function createMarker(place, color) {
   var placeLoc = place.geometry.location;
   var marker = new google.maps.Marker({
     map: map,
-    position: place.geometry.location
-    
+    position: place.geometry.location  
+  });
+  var orgMarker = new google.maps.Marker({
+    map: map,
+    position: orgn,
+    icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png' 
   });
   markers.push(marker);
+  markers.push(orgMarker);
    // if(color =="green"){
    //    marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
    //  }
@@ -237,6 +246,57 @@ function createMarker(place, color) {
   });
   });
 }
+
+ function createDirectionsMarker(place, color) {
+  var placeLoc = place.geometry.location;
+  var marker = new google.maps.Marker({
+    map: map,
+    position: place.geometry.location  
+  });
+   
+  markers.push(marker);
+  
+   // google.maps.event.addListener(marker, 'mouseover', function() {
+
+   infowindow.setContent(place.name + getStars(place.rating));
+
+    infowindow.open(map, marker);
+   // });
+
+  
+    request = {
+    destination: marker.position,
+    origin: orgn,
+    // possible WALKINK, DRIVING, BICYCLING and TRANSIT
+    travelMode: google.maps.TravelMode.DRIVING
+  };
+    
+    directionsDisplay = new google.maps.DirectionsRenderer({map: map});
+    
+  
+     // Pass the directions request to the directions service.
+  directionsService = new google.maps.DirectionsService();
+  directionsService.route(request, function(response, status) {
+    if (status == google.maps.DirectionsStatus.OK) {
+      // Display the route on the map.
+      directionsDisplay.setDirections(response);
+    }
+  });
+}
+
+
+  function displayLocation(place, i){
+      $('#radar-location').toggle("slow");
+      $('#map-container').toggle();
+      initBlankMap();
+      $(this).delay(1000, function(){
+      deleteMarkers();
+      createDirectionsMarker(place, 'green');
+  });
+      
+      
+      // createMarker(orgn);
+  }
  
  function geocodeAddress(geocoder, resultsMap) {
   var address = document.getElementById('address').value;
@@ -345,9 +405,7 @@ $('.nav-pills li').click(function(){
   $('#radar-location').toggle("slow");
   $('#map-container').toggle();
   initMap();
-  $(this).delay(3000, function(){
-    
-  });
+  
   
   
 

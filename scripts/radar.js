@@ -218,9 +218,9 @@ function loadRadar(results, orgn){
 				d3.select(this).attr("r", d3.select(this).attr("r")*0.9);
 				d3.select(this).attr("stroke", "none");
 			})
-		.on("click", function(d) {
+		.on("click", function(d, i) {
 			    
-			
+			displayLocation(places[i], i);
 			});
 		
 
