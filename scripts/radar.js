@@ -129,7 +129,7 @@ function loadRadar(results, orgn){
 		.attr("width", svg_w)
 		.attr("height", svg_h)
 		.style("position", "absolute")
-		.style("background-color", "black")
+		//.style("background-color", "black")
 		.style("margin-left", "auto")
 		.style("margin-right", "auto");
 	//svg.selectAll("*").empty();
