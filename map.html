@@ -182,14 +182,14 @@ function callback(results, status) {
       createMarker(results[i],"red");
 
       if(results[i].photos !== undefined){
-      $("#media-list").append("<div class='media col-lg-12' ><div class='map-list-item'><div class='media-left'><img width ='85' pxclass='media-object' src='"  + results[i].photos[0].getUrl({
+      $("#media-list").append("<div id='listitem" + i + "' class='media col-lg-12' ><div class='map-list-item'><div class='media-left'><img width ='85' pxclass='media-object' src='"  + results[i].photos[0].getUrl({
             'maxWidth': 65,
             'maxHeight': 45,
         })
       +"' alt='test'></a></div><div class='media-body'><h5 class='media-heading'>" + results[i].name +"</h4><p>" + results[i].vicinity +".</p></div><div class='media-left media-top'>" + getStars(results[i].rating)  
        + "</div></div></div>");
          }else{
-          $("#media-list").append("<div class='media col-lg-12'><div  class='map-list-item'><div class='media-left'><img width ='40' height='40' pxclass='media-object' src='" + results[i].icon +"' alt='test'></div><div class='media-body'><h5 class='media-heading'>" + results[i].name +"</h4><p>" + results[i].vicinity +".</p></div><div class='media-left media-top'><div>" + getStars(results[i].rating)  
+          $("#media-list").append("<div id='listitem" + i + "' class='media col-lg-12'><div  class='map-list-item'><div class='media-left'><img width ='40' height='40' pxclass='media-object' src='" + results[i].icon +"' alt='test'></div><div class='media-body'><h5 class='media-heading'>" + results[i].name +"</h4><p>" + results[i].vicinity +".</p></div><div class='media-left media-top'><div>" + getStars(results[i].rating)  
        + "</div></div></div></div>");
          }
         

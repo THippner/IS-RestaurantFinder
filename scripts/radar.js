@@ -207,13 +207,14 @@ function loadRadar(results, orgn){
 			else return "#00cc00";					
 			})
 		.on("mouseover", function(){ // enrlage circle and give it a highlight border
-			
+			    $('#listitem' + i).css('background-color','lightGray');
 				d3.select(this).attr("r", d3.select(this).attr("r")*1.1);
 				d3.select(this).attr("stroke", "#00ffff");
 				d3.select(this).attr("stroke-width", 3);
 				//this.parentNode.appendChild(this); // brings circle to front but not the text
 			})
 		.on("mouseout", function(){ // shrink circle and remove its highlight border
+			    
 				d3.select(this).attr("r", d3.select(this).attr("r")*0.9);
 				d3.select(this).attr("stroke", "none");
 			})
