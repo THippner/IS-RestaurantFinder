@@ -184,17 +184,19 @@
 		<script>
 			$('#postcodeField').keypress(function (e) {
             if(e.which ==13)
-             window.location.href='map.html';
+             window.location.href='map.html' + '?customAddress='+ document.getElementById('postcodeField').value.split(' ').join('+');
             });
 			function getLocation() {
-				// if (navigator.geolocation) {
-				// 	navigator.geolocation.getCurrentPosition(showPosition);
-				// } else { 
-				// x.innerHTML = "Geolocation is not supported by this browser.";
-				window.location.href='map.html';
-			// }
-		}
-			<!-- location is displayed purely for testing -->
+				if (navigator.geolocation) {
+					navigator.geolocation.getCurrentPosition(moveToMap);
+				} else { 
+				x.innerHTML = "Geolocation is not supported by this browser.";}
+
+			}
+			function moveToMap(position){
+				window.location.href='map.html' + '?latitude='+  position.coords.latitude + '&longitude=' + position.coords.longitude
+			}
+		<!-- location is displayed purely for testing -->
 			// function showPosition(position) {
 			// 	x.innerHTML = "Latitude: " + position.coords.latitude + 
 			// 	"<br>Longitude: " + position.coords.longitude;	
