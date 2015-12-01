@@ -104,16 +104,29 @@ function loadRadar(results, orgn){
 
 	// SVG ********************************************************** SVG
 
+	// static svg background
+	var bsvg = d3.select("#radar-location").append("svg")
+		.attr("width", svg_w)
+		.attr("height", svg_h)
+		.style("position", "absolute")
+		.style("background-color", "black")
+		.style("margin-left", "auto")
+		.style("margin-right", "auto");
+	//svg.selectAll("*").empty();
+	
+	//svg for dots
 	var svg = d3.select("#radar-location").append("svg")
 		.attr("width", svg_w)
 		.attr("height", svg_h)
 		.attr("display", "block")
+		.style("position", "absolute")
+		//.style("b", "black")
 		.style("margin-left", "auto")
 		.style("margin-right", "auto");
 	svg.selectAll("*").empty();
 
 	// Radar Circle Body
-	var radar_circ_body = svg.append("circle")
+	var radar_circ_body = bsvg.append("circle")
 		.attr("cx", svg_w/2)
 		.attr("cy", svg_h/2)
 		.attr("r", svg_w/2 - radar_pad) 
@@ -123,7 +136,7 @@ function loadRadar(results, orgn){
 	// Radar Range Circles *************************************************
 
 	// outer
-	svg.append("circle")
+	bsvg.append("circle")
 		.attr("cx", radar_circ_body.attr("cx"))
 		.attr("cy", radar_circ_body.attr("cy"))
 		.attr("r", radar_circ_body.attr("r"))
@@ -131,7 +144,7 @@ function loadRadar(results, orgn){
 		.attr("class", "radar-range-circle");  
 
 	// middle	
-	svg.append("circle")
+	bsvg.append("circle")
 		.attr("cx", radar_circ_body.attr("cx"))
 		.attr("cy", radar_circ_body.attr("cy"))
 		.attr("r", radar_circ_body.attr("r") * 2 / 3)
@@ -139,7 +152,7 @@ function loadRadar(results, orgn){
 		.attr("class", "radar-range-circle");
 
 	// inner	
-	svg.append("circle")
+	bsvg.append("circle")
 		.attr("cx", radar_circ_body.attr("cx"))
 		.attr("cy", radar_circ_body.attr("cy"))
 		.attr("r", radar_circ_body.attr("r") * 1 / 3)
@@ -150,7 +163,7 @@ function loadRadar(results, orgn){
 	// Radar Range Grid **********************************************************
 
 	// horizontal
-	svg.append("line")
+	bsvg.append("line")
 		.attr("x1", radar_pad)
 		.attr("y1", svg_h/2)
 		.attr("x2", svg_w - radar_pad)
@@ -159,7 +172,7 @@ function loadRadar(results, orgn){
 		.attr("class", "radar-grid-line");
 		
 	// vertical
-	svg.append("line")
+	bsvg.append("line")
 		.attr("x1", svg_h/2)
 		.attr("y1", radar_pad)
 		.attr("x2", svg_h/2)
@@ -169,7 +182,7 @@ function loadRadar(results, orgn){
 		
 		
 	// Radar detector line **********************************************************	
-	var detector = svg.append("line")
+	var detector = bsvg.append("line")
 		.attr("x1", svg_w/2)
 		.attr("y1", svg_h/2)
 		.attr("x2", svg_w)
@@ -179,7 +192,7 @@ function loadRadar(results, orgn){
 		
 			
 	// Center Point
-	svg.append("circle")
+	bsvg.append("circle")
 		.attr("cx", radar_circ_body.attr("cx"))
 		.attr("cy", radar_circ_body.attr("cy"))
 		.attr("r", radar_pad) 
@@ -217,6 +230,17 @@ function loadRadar(results, orgn){
 			    $('#listitem' + i).css('background-color','white');
 				d3.select(this).attr("r", d3.select(this).attr("r")*0.9);
 				d3.select(this).attr("stroke", "none");
+		
+				
+				
+				var this_id = d3.select(this).attr("id");
+				var dottext = d3.select("#dottext" + this_id.substr(this_id.length - 1)); 
+				dottext.moveToBack(); // brings corresponsinf text to front
+				d3.select(this).moveToBack(); // brings circle to front
+				
+				//loadRadar(results, orgn);
+				
+
 			})
 		.on("click", function(d, i) {
 			    
