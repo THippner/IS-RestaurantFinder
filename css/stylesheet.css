@@ -22,6 +22,9 @@
 	margin-top:250px;
 	height: 80px;				
 }
+.navbar-right{
+    	margin-right:80px;
+    }
 
 /*#topFiveListField{
 	position: absolute;
@@ -115,7 +118,8 @@
 			
 .dot-text {
 	fill: black;
-	font-family: sans-serif;				
+	font-family: sans-serif;
+	pointer-events: none;				
 }
 
 .radar-range-text {

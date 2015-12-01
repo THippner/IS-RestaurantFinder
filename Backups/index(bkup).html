@@ -21,13 +21,13 @@
         height: 300px;
         
         }
-       /* .btn{
+        .btn{
           margin-bottom:10px;
           margin-top:10px;
           margin-left: -2px;
           margin-right: -2px;
 
-        }*/
+        }
         .glyphicon{
           color: green;
         }
@@ -60,40 +60,13 @@
     .navbar-right{
     	margin-right:80px;
     }
-    #map{
-      display: none;
-    }
-    #lost-image{
-      position: absolute;
-      width:100%;
-      z-index:0;
-      background-size: cover;
-      height:80%;
-    }
-
-    #top-five-txt{
-      margin-top:150px;  
-    }
-    .mp-wrapper{
-      z-index:2;
-      position:relative
-    }
-    .mp-wrapper:hover{
-      
-
-      cursor: pointer !important;
-    }
-    .mp{
-      pointer-events: none !important;
-    }
+        
     </style>
 	</head>
 	<body>
-       <img id="lost-image" src="media/rest.jpg" alt="image of lost person looking at phone"/>
-       image from flicker 
 	    <div class="navbar-wrapper">
       <div class="container">
-       
+
         <nav class="navbar navbar-inverse navbar-static-top">
           <div class="container">
             <div class="navbar-header">
@@ -108,7 +81,7 @@
             <div id="navbar" class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
                 
-                <li><img width="50" height="50"src="media/radar.png"/></li>
+                <li><img width="50" height="50"src="radar.png"/></li>
                 <!-- <li><a href="#about">About</a></li> -->
                 <!-- <li class="dropdown"> -->
                  <!--  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a> -->
@@ -135,18 +108,9 @@
       </div>
     </div>
 	    <div class="container">
-	      <div class="row" id="serachField" class="col-lg-8 ">
-  <div class="col-lg-8 col-lg-offset-2" >
-    <div class="input-group">
-      <input type="text" class="form-control input-lg" id="postcodeField" placeholder="Search postcode or place name">
-      <span class="input-group-btn">
-        <button class="btn btn-default btn-lg" type="button" onclick="getLocation()">Search Current Location</button>
-      </span>
-    </div><!-- /input-group -->
-  </div><!-- /.col-lg-6 -->
-</div><!-- /.row -->
-			<div class="medialist col-md-10 col-lg-10 col-lg-offset-1" id="media-list">
-			<h2 class="col-md-offset-2 col-lg-offset-4" id="top-five-txt">Popular restaurants </h2>
+	    
+			<div class="medialist col-md-6 col-lg-6 " id="media-list">
+			<h2 class="col-md-offset-2 col-lg-offset-1">Top five rated restaurants nearby </h2>
 	        </div>
 			
 			
@@ -155,7 +119,7 @@
 				javascript for geocaching is taken from:
 				http://www.w3schools.com/html/tryit.asp?filename=tryhtml5_geolocation -->
 
-		<!-- 	<div id="serachField" class="col-md-6 col-lg-6">
+			<div id="serachField" class="col-md-6 col-lg-6">
 				<div id="postcodeFieldDiv">
 					<form>
 						<input id="postcodeField" type="field" name="postcode" placeholder="Enter postcode or place">
@@ -164,16 +128,12 @@
 				<div id="locationButtonDiv">
 					<button id="locationButton" onclick="getLocation()">Use Current Location</button>
 					<!-- <a id="loginLink" href="login.html">Log in</a> -->
-				<!--</div> 
-				<div id="errorMessageDiv"> -->
-					<!--Place holder to display error message of geocaching -->
-					<!-- <p id="errorMessage"></p>
 				</div>
-			</div> 
- -->
-
-
-
+				<div id="errorMessageDiv">
+					<!--Place holder to display error message of geocaching -->
+					<p id="errorMessage"></p>
+				</div>
+			</div>
 			<br>
 			<br>
 				<div id="map" class="col-lg-4"></div> 
@@ -184,18 +144,16 @@
 		<script>
 			$('#postcodeField').keypress(function (e) {
             if(e.which ==13)
-             window.location.href='map.html' + '?customAddress='+ document.getElementById('postcodeField').value.split(' ').join('+');
+             window.location.href='map.html';
             });
 			function getLocation() {
-				if (navigator.geolocation) {
-					navigator.geolocation.getCurrentPosition(moveToMap);
-				} else { 
-				x.innerHTML = "Geolocation is not supported by this browser.";}
-
-			}
-			function moveToMap(position){
-				window.location.href='map.html' + '?latitude='+  position.coords.latitude + '&longitude=' + position.coords.longitude
-			}
+				// if (navigator.geolocation) {
+				// 	navigator.geolocation.getCurrentPosition(showPosition);
+				// } else { 
+				// x.innerHTML = "Geolocation is not supported by this browser.";
+				window.location.href='map.html';
+			// }
+		}
 			<!-- location is displayed purely for testing -->
 			// function showPosition(position) {
 			// 	x.innerHTML = "Latitude: " + position.coords.latitude + 
@@ -234,21 +192,21 @@ function callback(results, status) {
     for (var i = 0; i < 5; i++) {
       createMarker(results[i],map);
       if(results[i].photos !== undefined){
-      $("#media-list").append("<div class='map-list-item media col-lg-9'><div class='media-left col-lg-2'><img width ='85' class='media-object' src='"  + results[i].photos[0].getUrl({
+      $("#media-list").append("<div class='map-list-item media col-lg-12'><div class='media-left col-lg-3'><img width ='85' class='media-object' src='"  + results[i].photos[0].getUrl({
             'maxWidth': 65,
             'maxHeight': 45,
         })
-      +"' alt='Restaurant image'/></div><div class='media-body class-lg-3 col-lg-offset-3'><h4 class='media-heading'>" + results[i].name +"</h4><p>" + results[i].vicinity +"</p>" + getStars(results[i].rating)  + "</div></div><div class='mp-wrapper' onclick='getLocation()'><div id='map" + i + "' class='col-lg-2 mp'></div></div>");
+      +"' alt='Restaurant image'/></div><div class='media-body class-lg-5 col-lg-offset-1'><h4 class='media-heading'>" + results[i].name +"</h4><p>" + results[i].vicinity +"</p>" + getStars(results[i].rating)  + "</div></div></div>");
          }else{
-          $("#media-list").append("<div  class='map-list-item media col-lg-9'><div class='media-left col-lg-3'><img width ='40' height='40' class='media-object' src='" + results[i].icon +"' alt='Restaurant image'></div><div class='media-body col-lg-3 col-lg-offset-3''><h4 class='media-heading'>" + results[i].name +"</h4><p>" + results[i].vicinity +".</p>"+ getStars(results[i].rating)  
-       + "</div></div><div class='mp-wrapper' onclick='getLocation()'><div  id='map" + i + "' class='col-lg-2 mp'></div></div>");
+          $("#media-list").append("<div  class='map-list-item media col-lg-12'><div class='media-left col-lg-3'><img width ='40' height='40' class='media-object' src='" + results[i].icon +"' alt='Restaurant image'></div><div class='media-body col-lg-5 col-lg-offset-3''><h4 class='media-heading'>" + results[i].name +"</h4><p>" + results[i].vicinity +".</p>"+ getStars(results[i].rating)  
+       + "</div></div></div>");
          }
-        // var location = {results[i].geometry.location};
-        var newMap = new google.maps.Map(document.getElementById('map'+i), {
-        center: results[i].geometry.location,
-        zoom: 15
-         });
-        createMarker(results[i], newMap);
+        // var location = {results[i].geometry.}
+        // var newMap = new google.maps.Map(document.getElementById('map'+i), {
+        // center: results[i].geometry.location,
+        // zoom: 15
+        //  });
+        // createMarker(results[i], newMap);
         // <div id='map" + i + "' class='col-lg-2'></div>
     }
     places = results;
@@ -353,19 +311,19 @@ function getPlaces(loc, map){
    var service = new google.maps.places.PlacesService(map);
         service.nearbySearch({
         location: loc,
-        radius:500,
-               types: ['cafe', 'bar','restaurant']
+        radius: 500,
+        types: ['cafe', 'bar','restaurant']
         }, callback);
 }
 
   // Set destination, origin and travel mode.
   
-$('.mp').click(function(){
-  // $(this).toggleClass( 'list-group-item-success' );
-  // $(this).siblings().removeClass( 'list-group-item-success');
-  // getPlaces(orgn, map);
+// $('.list-group-item').click(function(){
+//   $(this).toggleClass( 'list-group-item-success' );
+//   $(this).siblings().removeClass( 'list-group-item-success');
+//   getPlaces(orgn, map);
 
-});
+// });
 		</script>
 	
 	</body>

@@ -19,17 +19,33 @@
 // empty data to be filled later
 var center = [0,0]; // 
 var restaurants = [ // lat, long, rating, distance
-					[0, 0, 0, 0],
-					[0, 0, 0, 0],
-					[0, 0, 0, 0],
-					[0, 0, 0, 0],
-					[0, 0, 0, 0],
+					[0, 0, 0, 0, 1],
+					[0, 0, 0, 0, 2],
+					[0, 0, 0, 0, 3],
+					[0, 0, 0, 0, 4],
+					[0, 0, 0, 0, 5],
 				];
 
 // fill data from global
 //	center[0] = orgn.lat;
 //	center[1] = orgn.lon;
 
+// d3 function to move elements to front
+d3.selection.prototype.moveToFront = function() {
+  return this.each(function(){
+	this.parentNode.appendChild(this);
+  });
+};
+
+// d3 function to move element to back
+d3.selection.prototype.moveToBack = function() { 
+    return this.each(function() { 
+        var firstChild = this.parentNode.firstChild; 
+        if (firstChild) { 
+            this.parentNode.insertBefore(this, firstChild); 
+        } 
+    }); 
+};
 
 function loadRadar(results, orgn){
 	d3.select("#radar-location").selectAll("*").remove();
@@ -104,16 +120,27 @@ function loadRadar(results, orgn){
 
 	// SVG ********************************************************** SVG
 
+	// static svg background
+	var bsvg = d3.select("#radar-location").append("svg")
+		.attr("width", svg_w)
+		.attr("height", svg_h)
+		.style("position", "absolute")		
+		.style("margin-left", "auto")
+		.style("margin-right", "auto");
+	//svg.selectAll("*").empty();
+	
+	//svg for dots
 	var svg = d3.select("#radar-location").append("svg")
 		.attr("width", svg_w)
 		.attr("height", svg_h)
 		.attr("display", "block")
+		.style("position", "absolute")		
 		.style("margin-left", "auto")
 		.style("margin-right", "auto");
 	svg.selectAll("*").empty();
 
 	// Radar Circle Body
-	var radar_circ_body = svg.append("circle")
+	var radar_circ_body = bsvg.append("circle")
 		.attr("cx", svg_w/2)
 		.attr("cy", svg_h/2)
 		.attr("r", svg_w/2 - radar_pad) 
@@ -123,7 +150,7 @@ function loadRadar(results, orgn){
 	// Radar Range Circles *************************************************
 
 	// outer
-	svg.append("circle")
+	bsvg.append("circle")
 		.attr("cx", radar_circ_body.attr("cx"))
 		.attr("cy", radar_circ_body.attr("cy"))
 		.attr("r", radar_circ_body.attr("r"))
@@ -131,7 +158,7 @@ function loadRadar(results, orgn){
 		.attr("class", "radar-range-circle");  
 
 	// middle	
-	svg.append("circle")
+	bsvg.append("circle")
 		.attr("cx", radar_circ_body.attr("cx"))
 		.attr("cy", radar_circ_body.attr("cy"))
 		.attr("r", radar_circ_body.attr("r") * 2 / 3)
@@ -139,7 +166,7 @@ function loadRadar(results, orgn){
 		.attr("class", "radar-range-circle");
 
 	// inner	
-	svg.append("circle")
+	bsvg.append("circle")
 		.attr("cx", radar_circ_body.attr("cx"))
 		.attr("cy", radar_circ_body.attr("cy"))
 		.attr("r", radar_circ_body.attr("r") * 1 / 3)
@@ -150,7 +177,7 @@ function loadRadar(results, orgn){
 	// Radar Range Grid **********************************************************
 
 	// horizontal
-	svg.append("line")
+	bsvg.append("line")
 		.attr("x1", radar_pad)
 		.attr("y1", svg_h/2)
 		.attr("x2", svg_w - radar_pad)
@@ -159,7 +186,7 @@ function loadRadar(results, orgn){
 		.attr("class", "radar-grid-line");
 		
 	// vertical
-	svg.append("line")
+	bsvg.append("line")
 		.attr("x1", svg_h/2)
 		.attr("y1", radar_pad)
 		.attr("x2", svg_h/2)
@@ -169,7 +196,7 @@ function loadRadar(results, orgn){
 		
 		
 	// Radar detector line **********************************************************	
-	var detector = svg.append("line")
+	var detector = bsvg.append("line")
 		.attr("x1", svg_w/2)
 		.attr("y1", svg_h/2)
 		.attr("x2", svg_w)
@@ -179,7 +206,7 @@ function loadRadar(results, orgn){
 		
 			
 	// Center Point
-	svg.append("circle")
+	bsvg.append("circle")
 		.attr("cx", radar_circ_body.attr("cx"))
 		.attr("cy", radar_circ_body.attr("cy"))
 		.attr("r", radar_pad) 
@@ -196,6 +223,9 @@ function loadRadar(results, orgn){
 		.enter()
 		.append("circle")
 		.attr("class", "dot")
+		.attr("id", function(d, i){
+			return "dot" + d[4];
+		})
 		.attr("cx", function(d){ return ScaleDot(d[1]);})
 		.attr("cy", function(d){ return svg_h - ScaleDot(d[0]);})
 		.attr("r", function(d){ return rtgScaleDot(d[2]);})
@@ -206,22 +236,37 @@ function loadRadar(results, orgn){
 			else if (rating >= 2.5 && rating < 4) return "#e5e600";
 			else return "#00cc00";					
 			})
-		.on("mouseover", function(){ // enrlage circle and give it a highlight border
-			
+		.on("mouseover", function(d,i){ // enrlage circle and give it a highlight border
+			    $('#listitem' + i).css('background-color','lightBlue');
 				d3.select(this).attr("r", d3.select(this).attr("r")*1.1);
 				d3.select(this).attr("stroke", "#00ffff");
 				d3.select(this).attr("stroke-width", 3);
-				//this.parentNode.appendChild(this); // brings circle to front but not the text
+				
+				// moves dot and coreponding text to front
+				var this_id = d3.select(this).attr("id");
+				var dottext = d3.select("#dottext" + this_id.substr(this_id.length - 1)); 
+				d3.select(this).moveToFront(); 
+				dottext.moveToFront(); 
+				
+				
 			})
-		.on("mouseout", function(){ // shrink circle and remove its highlight border
+		.on("mouseout", function(d,i){ // shrink circle and remove its highlight border
+			    $('#listitem' + i).css('background-color','white');
 				d3.select(this).attr("r", d3.select(this).attr("r")*0.9);
 				d3.select(this).attr("stroke", "none");
+		
+				
+				
+				var this_id = d3.select(this).attr("id");
+				var dottext = d3.select("#dottext" + this_id.substr(this_id.length - 1)); 
+				dottext.moveToBack(); // brings corresponsinf text to front
+				d3.select(this).moveToBack(); // brings circle to front
+				
+
 			})
-		.on("click", function(d) {
-			
-			// highlight list element coreposning to circle here
-			// TODO
-			
+		.on("click", function(d, i) {
+			    
+			displayLocation(places[i], i);
 			});
 		
 
@@ -231,6 +276,9 @@ function loadRadar(results, orgn){
 		.enter()
 		.append("text")
 		.attr("class", "dot-text")
+		.attr("id", function(d, i){
+			return "dottext" + d[4];
+		})
 		.text(function(d){ return d[2];})
 		.attr("x", function(d){ return ScaleDot(d[1]);})
 		.attr("y", function(d){ return svg_h - ScaleDot(d[0]);})
