@@ -125,8 +125,14 @@
                 
               </ul>
               <ul class="nav navbar-nav navbar-right">
-                  <li><a href="login.html"><strong>Login</strong></a></li>
-                  <li></li>
+			    <li><button id='loginButton' class="btn btn-custom dropdown-toggle navbar-brand" type="button" data-toggle="dropdown">Login<span class="caret"></span></button>
+					<ul class="dropdown-menu">
+					<li><input type="text" class="form-control input-sm" id="username" placeholder="Username"></li>
+					<li><input type="password" class="form-control input-sm" id="password" placeholder="Password"></li>
+					<li><button class="btn btn-default btn-sm col-md-offset-4" type="button" onclick="checkUser()">Login</button></li>
+					<li><p class="col-md-offset-4" id='message'></p></li>
+					</ul>
+                  </li>
               </ul>
             </div>
           </div>
@@ -179,9 +185,64 @@
 				<div id="map" class="col-lg-4"></div> 
 
 				</div>
+				
 			 <script src="https://maps.googleapis.com/maps/api/js?libraries=places&callback=initMap"
         async defer></script>
 		<script>
+			
+			function checkUser(){
+				//console.log('hello cunt')
+			
+				//jQuery.get('users.html', function(data) {
+				//	console.log('FUCK THIS SHIT' + data);
+				//});
+				//console.log('of course this shit works')
+			//	var stringFileName='file:///C:/Users/marcu/Documents/GitHub/IS-RestaurantFinder/users.csv'
+			//	console.log(document.getElementById('userdatafield').files);
+			//	var file = document.getElementById('userdatafield').files[0];
+			//	var reader = new FileReader();
+			//	content = reader.readAsText(file);
+			//	console.log(content);
+
+			//	var reader = new FileReader();
+
+			//	content = reader.readAsText(stringFileName);
+			//	console.log(content);
+
+  
+				var success=0;
+				var allText="";
+				var usersData = new XMLHttpRequest();
+				usersData.open("GET", 'users.csv', false);
+				usersData.onreadystatechange = function (){
+					if(usersData.readyState === 4){
+						if(usersData.status === 200 || usersData.status == 0){
+							var allText = usersData.responseText;
+							var lines = allText.split('\n');
+							for(var line = 0; line < lines.length; line++){
+								if (line!=0){
+									var linesParts=lines[line].split(',');
+									console.log('yep username next'+linesParts[0]);
+									if (linesParts[0]==document.getElementById('username').value){
+										console.log('yep username test success now the password is'+ document.getElementById('password').value+''+linesParts[1] + '!');
+										console.log(linesParts[1]==document.getElementById('password').value);
+										if (linesParts[1]==document.getElementById('password').value){
+											console.log('well password is correct!?');
+											window.location.href='profile.html';
+										}
+										else {document.getElementById('message').value='Please check your password'}
+									}
+									else {document.getElementById('message').value='Please check your username'}
+								}
+							}
+						}
+					}
+				}
+				usersData.send();
+			}
+		
+		
+		
 			$('#postcodeField').keypress(function (e) {
             if(e.which ==13)
              window.location.href='map.html' + '?customAddress='+ document.getElementById('postcodeField').value.split(' ').join('+');
