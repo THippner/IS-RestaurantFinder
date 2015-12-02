@@ -13,64 +13,10 @@
 <!-- Latest compiled JavaScript -->
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <title>Restaurant Radar Map</title>
-    
-     
-        <script type="text/javascript" src="lib/d3/d3.js"></script> <!-- D3 Libraries -->
-    
-    <style>
-        #map {
-        width:80%;
-        height: 500px;
-      
-        }
-        .btn{
-          margin-bottom:10px;
-          margin-top:10px;
-          margin-left: -2px;
-          margin-right: -2px;
 
-        }
-        .glyphicon{
-          color: green;
-        }
-        .map-list-item{
-          height:80px;
-        }
-        .map-list-item:hover{
-          cursor: pointer;
-         cursor: hand;
-         background-color:lightBlue;}
-          #media-list{
-           padding-right:5px;
-           height: 550px;
-           overflow: auto;
-           
-    }
-    .media{
-      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-      padding: 0px 1.5rem;
-    }
-    .media-heading{
-      margin-right: 5px;
-
-    }
-
-    .navbar-static-top{
-      margin-top:10px;
-      border-radius: 5px;
-      background-color: black;
-    }
-    body{
-      /*background-color: black;*/
-    }
-    .nav-pills{
-      margin-bottom: -50px;
-      z-index: 2;
-    }
-        
-    </style>
 </head>
 <body>
+<!-- navbar -->
  <div class="navbar-wrapper">
       <div class="container">
 
@@ -89,19 +35,6 @@
               <ul class="nav navbar-nav">
                 
                 <li><img width="50" height="50"src="media/radar.png"/></li>
-               <!--  <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
-                <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-                  <ul class="dropdown-menu">
-                    <li><a href="#">Action</a></li>
-                    <li><a href="#">Another action</a></li>
-                    <li><a href="#">Something else here</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li class="dropdown-header">Nav header</li>
-                    <li><a href="#">Separated link</a></li>
-                    <li><a href="#">One more separated link</a></li>
-                  </ul> -->
                 </li>
               </ul>
               <ul class="nav navbar-nav navbar-right">
@@ -117,53 +50,57 @@
 <div class="container"> 
 
   
- <!-- <div class="row"> -->
-   
-  <div class="medialist col-md-4 col-lg-4" id="media-list">
+ 
+  <!-- list to display retaurant details --> 
+  <div class="medialist hidden-xs hidden-sm col-md-4 col-lg-4" id="media-list">
 
   </div>
-  <ul class="nav nav-pills col-lg-offset-6 col-md-offset-6 col-lg-2">
+
+  <!-- buttons to change between map and radar -->
+  <ul class="nav nav-pills col-sm-offset-0 col-sm-2  col-lg-offset-6 col-md-offset-6 col-lg-2">
       <li class="active" vid="radarPill"><a>Radar</a></li>
       <li id="mapPill"><a>Map</a></li>
     </ul>
-<div id="radar-location" class="col-lg-6 col-md-6"></div>
+
 <!--  Div to contain radar svg  -->
-<div class="col-lg-8" id="map-container">
-    
-    <div class="col-lg-offset-3">
+<div id="radar-location" class="col-lg-6 col-md-6"></div>
+
+<div class="col-sm-12 col-md-8 col-lg-8" id="map-container">
+    <!-- search location input -->
+    <div class="col-sm-offset-0 col-sm-8 col-lg-offset-3 col-lg-12">
     <input id="address" type="text" class="input-sm" placeholder="Enter place or post code">
     <input id="submit" type="button" class="btn btn-default btn-sm" value="update location">
     </div>
-<div id="map" class="col-lg-10"></div>   
 
+<!-- map -->
+<div class="col-lg-10">
+    <div id="map" class="col-xs-12 col-sm-12 col-md-12 col-lg-12"></div>   
+</div>
+
+<!-- buttons for selecting to view restaurants, cafes or bars -->
 <div class="list-group col-lg-2">
   <button type="button" class="list-group-item list-group-item-success" >Restaurant</button>
   <button type="button" class="list-group-item" >Cafe</button>
   <button type="button" class="list-group-item" >Bar</button>
 </div>
 </div>
-<!-- </div> -->
-
-
 <script>
 var map;
 var infowindow;
 var places;
 var geocoder;
 var markers = new Array();
-var orgn={lat:55.8580, lng:-4.2590};
+var orgn = {lat:55.8580, lng:-4.2590};
 var directionsDisplay;
-var directionsService
-var firstTimeVisit=1;
+var directionsService;
+var markerCount = 0;
 function initMap() {
-
-  
   initBlankMap();
   getPlaces(orgn,map);
 }
 
+ // initialises a blank map
 function initBlankMap() {
-
   map = new google.maps.Map(document.getElementById('map'), {
     center: orgn,
     zoom: 15,
@@ -173,83 +110,83 @@ function initBlankMap() {
   infowindow = new google.maps.InfoWindow();
 
   geocoder = new google.maps.Geocoder();
-  
+  // add event listner to the submit button to call the geocodeAddress function with the current map instance
   document.getElementById('submit').addEventListener('click', function() {
     geocodeAddress(geocoder, map);
   });
-  
-  var urlParts=location.search.substr(1).split('&')
-  if ( urlParts!= "" && firstTimeVisit == 1){
-	tempArray=[];
-	for (var i=0; i<urlParts.length;i++){
-		tempCoord={lat:55.8580, lng:-4.2590};  //defaults to glasgow center
-		tempArray= urlParts[i].split('=');
-		if(tempArray[0] === 'customAddress') {
-			var postcode=decodeURIComponent(tempArray[1]).split('+').join(' ');
-			var tempGeocoder = new google.maps.Geocoder();
-			geocodeAddressCoords(postcode, geocoder, map);
-		}
-		else if(tempArray[0]==='latitude') tempCoord.lat=tempArray[1];
-		else if(tempArray[0]==='longitude') {
-			tempCoord.lng=tempArray[1];
-			getPlaces(orgn,map);
-		}
-	}
-	firstTimeVisit = 0;
-  
-  }
-	
-  
-  // createMarker(orgn,"green");
 }
 
+
+// function is called with results from google places api to populate list
 function callback(results, status) {
   $("#media-list").empty();
   loadRadar(results, orgn);
   placeResults = results;
   if (status === google.maps.places.PlacesServiceStatus.OK) {
     for (var i = 0; i < results.length; i++) {
+      markerCount = i;
       createMarker(results[i],"red");
 
       if(results[i].photos !== undefined){
-      $("#media-list").append("<div id='listitem" + i + "' class='media col-lg-12' ><div class='map-list-item'><div class='media-left'><img width ='85' pxclass='media-object' src='"  + results[i].photos[0].getUrl({
+      $("#media-list").append("<div id='listitem" + i + "' class='media col-lg-12 lst-item' ><div class='map-list-item'><div class='media-left'><img width ='85' pxclass='media-object' src='"  + results[i].photos[0].getUrl({
             'maxWidth': 65,
             'maxHeight': 45,
         })
       +"' alt='test'></a></div><div class='media-body'><h5 class='media-heading'>" + results[i].name +"</h4><p>" + results[i].vicinity +".</p></div><div class='media-left media-top'>" + getStars(results[i].rating)  
        + "</div></div></div>");
          }else{
-          $("#media-list").append("<div id='listitem" + i + "' class='media col-lg-12'><div  class='map-list-item'><div class='media-left'><img width ='40' height='40' pxclass='media-object' src='" + results[i].icon +"' alt='test'></div><div class='media-body'><h5 class='media-heading'>" + results[i].name +"</h4><p>" + results[i].vicinity +".</p></div><div class='media-left media-top'><div>" + getStars(results[i].rating)  
+          $("#media-list").append("<div id='listitem" + i + "' class='media col-lg-12 lst-item'><div  class='map-list-item'><div class='media-left'><img width ='40' height='40' pxclass='media-object' src='" + results[i].icon +"' alt='test'></div><div class='media-body'><h5 class='media-heading'>" + results[i].name +"</h4><p>" + results[i].vicinity +".</p></div><div class='media-left media-top'><div>" + getStars(results[i].rating)  
        + "</div></div></div></div>");
          }
         
     }
     places = results;
+      
+      
   }
+   $('.lst-item').click(function(){
+        var i = parseInt($(this).attr('id').substring(8));
+          displayLocation(places[i], 'green');
+        });  
 }
 
+var destMarkers = {};
 var request;
+var cli = 1;
+var scrolled = 10;
+var orgMarker = null;
+
+//creates a marker on the map at the location of the passed in place
 function createMarker(place, color) {
+   
   var placeLoc = place.geometry.location;
   var marker = new google.maps.Marker({
     map: map,
     position: place.geometry.location  
   });
-  var orgMarker = new google.maps.Marker({
+ 
+  orgMarker = new google.maps.Marker({
     map: map,
     position: orgn,
     icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png' 
   });
-  markers.push(marker);
   markers.push(orgMarker);
-   // if(color =="green"){
-   //    marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
-   //  }
+  markers.push(marker);
+ 
+   // display place name and rating on mouseover
    google.maps.event.addListener(marker, 'mouseover', function() {
-
-      infowindow.setContent(place.name + getStars(place.rating));
-
+     
+    infowindow.setContent(place.name + getStars(place.rating));
     infowindow.open(map, this);
+   
+   });
+   
+   //remove place name and rating on mouseout
+   google.maps.event.addListener(marker, 'mouseout', function() {
+  
+    infowindow.setContent(place.name + getStars(place.rating));
+
+    infowindow.close(map, this);
    });
 
   google.maps.event.addListener(marker, 'click', function() {
@@ -261,7 +198,7 @@ function createMarker(place, color) {
   };
     directionsDisplay = new google.maps.DirectionsRenderer({map: map});
     
-
+     
      // Pass the directions request to the directions service.
   directionsService = new google.maps.DirectionsService();
   directionsService.route(request, function(response, status) {
@@ -270,9 +207,11 @@ function createMarker(place, color) {
       directionsDisplay.setDirections(response);
     }
   });
+
   });
 }
 
+ // creates marker with directions from orogin
  function createDirectionsMarker(place, color) {
   var placeLoc = place.geometry.location;
   var marker = new google.maps.Marker({
@@ -281,15 +220,11 @@ function createMarker(place, color) {
   });
    
   markers.push(marker);
-  
-   // google.maps.event.addListener(marker, 'mouseover', function() {
 
    infowindow.setContent(place.name + getStars(place.rating));
 
     infowindow.open(map, marker);
-   // });
-
-  
+ 
     request = {
     destination: marker.position,
     origin: orgn,
@@ -310,22 +245,23 @@ function createMarker(place, color) {
   });
 }
 
-
+// displays directions to location on map
   function displayLocation(place, i){
-      $('#radar-location').toggle("slow");
-      $('#map-container').toggle();
+      $('#radar-location').hide();
+      $('#map-container').show();
       initBlankMap();
-      $(this).delay(1000, function(){
+      $(this).delay(0, function(){
+        
       deleteMarkers();
       createDirectionsMarker(place, 'green');
   });
       
-      
-      // createMarker(orgn);
   }
  
+ //used to retrive location from address or postcode
  function geocodeAddress(geocoder, resultsMap) {
   var address = document.getElementById('address').value;
+
   map = resultsMap;
   geocoder.geocode({'address': address}, function(results, status) {
     if (status === google.maps.GeocoderStatus.OK) {
@@ -344,26 +280,7 @@ function createMarker(place, color) {
   });
 }
 
- function geocodeAddressCoords(address,geocoder, resultsMap) {
-  map = resultsMap;
-  geocoder.geocode({'address': address}, function(results, status) {
-    if (status === google.maps.GeocoderStatus.OK) {
-      resultsMap.setCenter(results[0].geometry.location);
-      var marker = new google.maps.Marker({
-        map: resultsMap,
-        position: results[0].geometry.location
-        });
-       orgn.lat = marker.position.lat();
-       orgn.lng = marker.position.lng();
-       getPlaces(marker.position, map);
-
-    } else {
-      alert('Geocode was not successful for the following reason: ' + status);
-    }
-  });
-}
-
-
+// function returns stars based on rating out of five 
 function getStars(rating){
   if(rating >0.5 && rating < 1){
       return " <span class='glyphicon glyphicon-star-empty'></span>";
@@ -399,6 +316,8 @@ function getStars(rating){
       return "";
     }
 }
+
+// retrives places from google api and passes them to callback function
 function getPlaces(loc, map){
   // orgn = loc;
   var type = $('.list-group-item-success').html().toLowerCase();
@@ -450,20 +369,14 @@ $('.nav-pills li').click(function(){
   $('#radar-location').toggle("slow");
   $('#map-container').toggle();
   initMap();
-  
-  
-  
-
 
 });
 
-$('.dot').mouseover(function(){
-  $(this).css('z-index', 10);
-        
-})
+
 </script>
+<script type="text/javascript" src="lib/d3/d3.js"></script> <!-- D3 Libraries -->
 <script src="https://maps.googleapis.com/maps/api/js?libraries=places&callback=initMap"
         async defer></script>
-<script type="text/javascript" src="scripts/radar.js"></script> <!-- Radar Script 
+<script type="text/javascript" src="scripts/radar.js"></script> <!-- Radar Script -->
 </body>
 </html>
