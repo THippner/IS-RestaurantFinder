@@ -6,7 +6,7 @@ Team 17
 University of Glasgow
 
 | Name | Feature |
-| ------------- |:-------------:| -----:|
+| ------------- |-------------| 
 | Tomasz Hippner | Radar <br /> User persona |
 | Craig Hamill | maps integration <br /> Added bootstrap to all pages <br /> API integration <br /> User persona|
 | Oli Hawes |  User profile page |
