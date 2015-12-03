@@ -108,6 +108,8 @@ var orgn = {lat:55.8580, lng:-4.2590};
 var directionsDisplay;
 var directionsService;
 var markerCount = 0;
+var directionsService
+var firstTimeVisit=1;
 // initialises a the map with place locations
 function initMap() {
   initBlankMap();
@@ -129,6 +131,28 @@ function initBlankMap() {
   document.getElementById('submit').addEventListener('click', function() {
     geocodeAddress(geocoder, map);
   });
+
+    var urlParts=location.search.substr(1).split('&')
+  if ( urlParts!= "" && firstTimeVisit == 1){
+	tempArray=[];
+	for (var i=0; i<urlParts.length;i++){
+		tempCoord={lat:55.8580, lng:-4.2590};  //defaults to glasgow center
+		tempArray= urlParts[i].split('=');
+		if(tempArray[0] === 'customAddress') {
+			var postcode=decodeURIComponent(tempArray[1]).split('+').join(' ');
+			var tempGeocoder = new google.maps.Geocoder();
+			geocodeAddressCoords(postcode, geocoder, map);
+		}
+		else if(tempArray[0]==='latitude') tempCoord.lat=tempArray[1];
+		else if(tempArray[0]==='longitude') {
+		tempCoord.lng=tempArray[1];
+			getPlaces(orgn,map);
+		}
+	}	firstTimeVisit = 0;
+ 
+ }	
+ 
+ // createMarker(orgn,"green");
 }
 
 
@@ -279,6 +303,26 @@ function createMarker(place, color) {
   var address = document.getElementById('address').value;
 
   map = resultsMap;
+
+   map = resultsMap;
+  geocoder.geocode({'address': address}, function(results, status) {
+   if (status === google.maps.GeocoderStatus.OK) {
+      resultsMap.setCenter(results[0].geometry.location);
+      var marker = new google.maps.Marker({
+       map: resultsMap,
+       position: results[0].geometry.location
+        });
+       orgn.lat = marker.position.lat();
+       orgn.lng = marker.position.lng();
+      getPlaces(marker.position, map);
+ 
+   } else {
+      alert('Geocode was not successful for the following reason: ' + status);
+    }
+ });
+}
+
+function geocodeAddressCoords(address,geocoder, resultsMap) {
   geocoder.geocode({'address': address}, function(results, status) {
     if (status === google.maps.GeocoderStatus.OK) {
       resultsMap.setCenter(results[0].geometry.location);
@@ -289,7 +333,7 @@ function createMarker(place, color) {
        orgn.lat = marker.position.lat();
        orgn.lng = marker.position.lng();
        getPlaces(marker.position, map);
-
+     
     } else {
       alert('Geocode was not successful for the following reason: ' + status);
     }
