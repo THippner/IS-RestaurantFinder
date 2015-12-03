@@ -116,8 +116,8 @@ var orgn = {lat:55.8580, lng:-4.2590};
 var directionsDisplay;
 var directionsService;
 var markerCount = 0;
-var firstTimeVisit=1;
 
+var firstTimeVisit=1;
 // initialises a the map with place locations
 
 function initMap() {
@@ -140,9 +140,10 @@ function initBlankMap() {
   document.getElementById('submit').addEventListener('click', function() {
     geocodeAddress(geocoder, map);
   });
-  
+
   //checks if location has been specified in url and then changes map accordingly
   var urlParts=location.search.substr(1).split('&')
+
   if ( urlParts!= "" && firstTimeVisit == 1){
 	tempArray=[];
 	for (var i=0; i<urlParts.length;i++){
@@ -155,6 +156,7 @@ function initBlankMap() {
 		}
 		else if(tempArray[0]==='latitude') tempCoord.lat=tempArray[1];
 		else if(tempArray[0]==='longitude') {
+
 			tempCoord.lng=tempArray[1];
 			getPlaces(orgn,map);
 		}
@@ -162,7 +164,7 @@ function initBlankMap() {
 	firstTimeVisit = 0;
   
   }
-	
+
 }
 
 
@@ -313,21 +315,23 @@ function createMarker(place, color) {
   var address = document.getElementById('address').value;
 
   map = resultsMap;
+
+   map = resultsMap;
   geocoder.geocode({'address': address}, function(results, status) {
-    if (status === google.maps.GeocoderStatus.OK) {
+   if (status === google.maps.GeocoderStatus.OK) {
       resultsMap.setCenter(results[0].geometry.location);
       var marker = new google.maps.Marker({
-        map: resultsMap,
-        position: results[0].geometry.location
+       map: resultsMap,
+       position: results[0].geometry.location
         });
        orgn.lat = marker.position.lat();
        orgn.lng = marker.position.lng();
-       getPlaces(marker.position, map);
-
-    } else {
+      getPlaces(marker.position, map);
+ 
+   } else {
       alert('Geocode was not successful for the following reason: ' + status);
     }
-  });
+ });
 }
 
  //used to retrive location from address or postcode passed form index page
