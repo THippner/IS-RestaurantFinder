@@ -265,7 +265,7 @@ function loadRadar(results, orgn){
 
 			})
 		.on("click", function(d, i) {
-			    
+			$('.nav-pills li').toggleClass( 'active' );
 			displayLocation(places[i], i);
 			});
 		

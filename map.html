@@ -13,7 +13,21 @@
 <!-- Latest compiled JavaScript -->
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <title>Restaurant Radar Map</title>
+<style>
+    .btn{
+margin-bottom:10px;
+margin-top:10px;
+margin-left: -2px;
+margin-right: -2px;
 
+}
+#media-list{
+padding-right:5px;
+height: 550px;
+overflow: auto;
+
+}
+</style>
 </head>
 <body>
 <!-- navbar -->
@@ -94,6 +108,7 @@ var orgn = {lat:55.8580, lng:-4.2590};
 var directionsDisplay;
 var directionsService;
 var markerCount = 0;
+// initialises a the map with place locations
 function initMap() {
   initBlankMap();
   getPlaces(orgn,map);
@@ -146,6 +161,7 @@ function callback(results, status) {
   }
    $('.lst-item').click(function(){
         var i = parseInt($(this).attr('id').substring(8));
+        $('.nav-pills li').toggleClass( 'active' );
           displayLocation(places[i], 'green');
         });  
 }
@@ -352,6 +368,9 @@ function deleteMarkers() {
 $('.list-group-item').click(function(){
   $(this).toggleClass( 'list-group-item-success' );
   $(this).siblings().removeClass( 'list-group-item-success');
+  
+  // $('.nav-pills li').siblings().removeClass( 'active');
+  $('.nav-pills li').toggleClass( 'active' );
   getPlaces(orgn, map);
 
 });
@@ -366,7 +385,7 @@ $('.nav-pills li').click(function(){
   $(this).siblings().removeClass( 'active');
   
   
-  $('#radar-location').toggle("slow");
+  $('#radar-location').toggle();
   $('#map-container').toggle();
   initMap();
 
