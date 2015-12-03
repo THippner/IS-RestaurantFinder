@@ -13,6 +13,9 @@
 
 <!-- Latest compiled JavaScript -->
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+	<!-- javascript to check login details-->
+	<script type="text/javascript" src="scripts/login.js"></script>
     <title>Restaurant Radar Map</title>
     
     <style>
@@ -110,19 +113,6 @@
               <ul class="nav navbar-nav">
                 
                 <li><img width="50" height="50"src="media/radar.png"/></li>
-                <!-- <li><a href="#about">About</a></li> -->
-                <!-- <li class="dropdown"> -->
-                 <!--  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a> -->
-                 <!--  <ul class="dropdown-menu">
-                    <li><a href="#">Action</a></li>
-                    <li><a href="#">Another action</a></li>
-                    <li><a href="#">Something else here</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li class="dropdown-header">Nav header</li>
-                    <li><a href="#">Separated link</a></li>
-                    <li><a href="#">One more separated link</a></li>
-                  </ul> -->
-                <!-- </li> -->
                 
               </ul>
               <ul class="nav navbar-nav navbar-right">
@@ -131,7 +121,6 @@
 					<li><input type="text" class="form-control input-sm" id="username" placeholder="Username"></li>
 					<li><input type="password" class="form-control input-sm" id="password" placeholder="Password"></li>
 					<li><button class="btn btn-default btn-sm col-md-offset-4" type="button" onclick="checkUser()">Login</button></li>
-					<li><p class="col-md-offset-4" id='message'></p></li>
 					</ul>
                   </li>
               </ul>
@@ -191,56 +180,7 @@
         async defer></script>
 		<script>
 			
-			function checkUser(){
-				//console.log('hello')
-			
-				//jQuery.get('users.html', function(data) {
-				//	console.log('blah THIS blah' + data);
-				//});
-				//console.log('of course this stuff works')
-			//	var stringFileName='file:///C:/Users/marcu/Documents/GitHub/IS-RestaurantFinder/users.csv'
-			//	console.log(document.getElementById('userdatafield').files);
-			//	var file = document.getElementById('userdatafield').files[0];
-			//	var reader = new FileReader();
-			//	content = reader.readAsText(file);
-			//	console.log(content);
 
-			//	var reader = new FileReader();
-
-			//	content = reader.readAsText(stringFileName);
-			//	console.log(content);
-
-  
-				var success=0;
-				var allText="";
-				var usersData = new XMLHttpRequest();
-				usersData.open("GET", 'users.csv', false);
-				usersData.onreadystatechange = function (){
-					if(usersData.readyState === 4){
-						if(usersData.status === 200 || usersData.status == 0){
-							var allText = usersData.responseText;
-							var lines = allText.split('\n');
-							for(var line = 0; line < lines.length; line++){
-								if (line!=0){
-									var linesParts=lines[line].split(',');
-									console.log('yep username next'+linesParts[0]);
-									if (linesParts[0]==document.getElementById('username').value){
-										console.log('yep username test success now the password is'+ document.getElementById('password').value+''+linesParts[1] + '!');
-										console.log(linesParts[1]==document.getElementById('password').value);
-										if (linesParts[1]==document.getElementById('password').value){
-											console.log('well password is correct!?');
-											window.location.href='profile.html';
-										}
-										else {document.getElementById('message').value='Please check your password'}
-									}
-									else {document.getElementById('message').value='Please check your username'}
-								}
-							}
-						}
-					}
-				}
-				usersData.send();
-			}
 		
 		
 		
