@@ -1,24 +1,9 @@
 // Radar JavaScript for Restaurant Finder
 
 
-
-// KEEP THIS COMMENTED FOR NOW
-// this should be replaced with actual data pulled from G-Maps
-//var center = [55.8574, -4.256899];
-//var restaurants = [ // lat, long, rating, distance
-//					[55.857126, -4.25743, 1, 0],
-//					[55.857183, -4.257108, 2, 0],
-//					[55.857738, -4.25596, 3, 0],
-//					[55.857876, -4.257022, 4, 0],
-//					[55.857545, -4.257296, 5, 0],
-//				];
-
-
-// THIS WILL SHOW YOU VALUES IN CONSOLE WHEN YOU INSPECT
-
 // empty data to be filled later
 var center = [0,0]; // 
-var restaurants = [ // lat, long, rating, distance
+var restaurants = [ // lat, long, rating, distance, id
 					[0, 0, 0, 0, 1],
 					[0, 0, 0, 0, 2],
 					[0, 0, 0, 0, 3],
@@ -26,9 +11,7 @@ var restaurants = [ // lat, long, rating, distance
 					[0, 0, 0, 0, 5],
 				];
 
-// fill data from global
-//	center[0] = orgn.lat;
-//	center[1] = orgn.lon;
+
 
 // d3 function to move elements to front
 d3.selection.prototype.moveToFront = function() {
@@ -83,9 +66,7 @@ function loadRadar(results, orgn){
 	// change values to ones relative to the center point			
 	for(i = 0; i < restaurants.length; i++){
 		restaurants[i][0] -=  center[0];
-		restaurants[i][1] -= center[1];	
-		//restaurants[i][0] = restaurants[i][0] * 1000; // Whats this for????
-		//restaurants[i][1] = restaurants[i][1] * 1000;			
+		restaurants[i][1] -= center[1];						
 	}
 
 	// SVG attrib
@@ -126,8 +107,7 @@ function loadRadar(results, orgn){
 		.attr("height", svg_h)
 		.style("position", "absolute")		
 		.style("margin-left", "auto")
-		.style("margin-right", "auto");
-	//svg.selectAll("*").empty();
+		.style("margin-right", "auto");	
 	
 	//svg for dots
 	var svg = d3.select("#radar-location").append("svg")
@@ -195,7 +175,9 @@ function loadRadar(results, orgn){
 		.attr("class", "radar-grid-line");
 		
 		
-	// Radar detector line **********************************************************	
+	// Radar detector line **********************************************************
+	
+	// detector line
 	var detector = bsvg.append("line")
 		.attr("x1", svg_w/2)
 		.attr("y1", svg_h/2)
@@ -203,7 +185,6 @@ function loadRadar(results, orgn){
 		.attr("y2", svg_h/2)
 		.attr("stroke-width", radar_pad *1.5)
 		.attr("class", "radar-detector-line");
-		
 			
 	// Center Point
 	bsvg.append("circle")
@@ -212,8 +193,6 @@ function loadRadar(results, orgn){
 		.attr("r", radar_pad) 
 		.attr("stroke-width", radar_pad)
 		.attr("class", "radar-range-circle radar-center");	
-		
-		
 		
 	// Restaurant Dots ***************************************** Restaurant Dots
 
@@ -265,7 +244,7 @@ function loadRadar(results, orgn){
 
 			})
 		.on("click", function(d, i) {
-			    
+			$('.nav-pills li').toggleClass( 'active' );
 			displayLocation(places[i], i);
 			});
 		
@@ -323,7 +302,7 @@ function loadRadar(results, orgn){
 		})
 		.attr("x", svg_w/2 + radar_circ_body.attr("r") * 1 / 3)
 		.attr("y", svg_h/2)
-		.attr("font-size", "17px") // TODO change to scaling with size			
+		.attr("font-size", "17px") // <====================== Should probably be scaled off svg size			
 		.attr("text-anchor", "middle")
 		.attr("dominant-baseline", "central");
 
@@ -376,8 +355,7 @@ function loadRadar(results, orgn){
 	// Rotating function	
 	d3.timer(function() {
 		var delta = (Date.now() - t0);
-		detector.attr("transform", "rotate("+ delta / 5 +"," + svg_w/2 + "," + svg_h/2 + ")");
-
+		detector.attr("transform", "rotate("+ delta / 5 +"," + svg_w/2 + "," + svg_h/2 + ")");		
 	});
 
 	// Find absoulte maximum of latitude/longitude
@@ -422,8 +400,7 @@ function loadRadar(results, orgn){
 		var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 		
 		// calculate distance
-		var d = R * c;
-		
+		var d = R * c;		
 			
 		return Math.round(d);
 	}
@@ -431,25 +408,6 @@ function loadRadar(results, orgn){
 	
 	
 }
-
-// Testing code ********************************************** Testing code
-
-//var range1 = document.getElementByClass
-
-//svg.selectAll("text-distance")
-//		.data(restaurants)
-//		.enter()
-//		.append("text")
-//		.attr("class", "text-distance")
-//		.text(function(d){ return d[3] + "m";})
-//		.attr("x", function(d){ return xScaleDot(d[1])+20;})
-//		.attr("y", function(d){ return svg_h - xScaleDot(d[0])+20;})
-//		.attr("font-size", function(d){ return rtgScaleTxt(d[2]) + "px"; })									
-//		//.attr("text-anchor", "middle")
-//		.attr("dominant-baseline", "middle")
-//		.attr("fill", "gray");
-	
-
 
 
 

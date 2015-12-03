@@ -16,7 +16,21 @@
 	<!-- javascript to check login details-->
 	<script type="text/javascript" src="scripts/login.js"></script>
     <title>Restaurant Radar Map</title>
+<style>
+    .btn{
+margin-bottom:10px;
+margin-top:10px;
+margin-left: -2px;
+margin-right: -2px;
 
+}
+#media-list{
+padding-right:5px;
+height: 550px;
+overflow: auto;
+
+}
+</style>
 </head>
 <body>
 <!-- navbar -->
@@ -103,6 +117,9 @@ var directionsDisplay;
 var directionsService;
 var markerCount = 0;
 var firstTimeVisit=1;
+
+// initialises a the map with place locations
+
 function initMap() {
   initBlankMap();
   getPlaces(orgn,map);
@@ -178,6 +195,7 @@ function callback(results, status) {
   }
    $('.lst-item').click(function(){
         var i = parseInt($(this).attr('id').substring(8));
+        $('.nav-pills li').toggleClass( 'active' );
           displayLocation(places[i], 'green');
         });  
 }
@@ -404,6 +422,9 @@ function deleteMarkers() {
 $('.list-group-item').click(function(){
   $(this).toggleClass( 'list-group-item-success' );
   $(this).siblings().removeClass( 'list-group-item-success');
+  
+  // $('.nav-pills li').siblings().removeClass( 'active');
+  $('.nav-pills li').toggleClass( 'active' );
   getPlaces(orgn, map);
 
 });
@@ -418,7 +439,7 @@ $('.nav-pills li').click(function(){
   $(this).siblings().removeClass( 'active');
   
   
-  $('#radar-location').toggle("slow");
+  $('#radar-location').toggle();
   $('#map-container').toggle();
   initMap();
 
@@ -426,7 +447,7 @@ $('.nav-pills li').click(function(){
 
 
 </script>
-<script type="text/javascript" src="lib/d3/d3.js"></script> <!-- D3 Libraries -->
+<script type="text/javascript" src="lib/d3/d3.min.js"></script> <!-- D3 Libraries -->
 <script src="https://maps.googleapis.com/maps/api/js?libraries=places&callback=initMap"
         async defer></script>
 <script type="text/javascript" src="scripts/radar.js"></script> <!-- Radar Script -->
