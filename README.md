@@ -8,7 +8,7 @@ University of Glasgow
 | Name | Feature |
 | ------------- |:-------------:| -----:|
 | Tomasz Hippner | radar |
-| Craig Hamill | *item maps integration *item Added bootstrap to all pages |
+| Craig Hamill | maps integration <br /> item Added bootstrap to all pages |
 | Oli Hawes | user profiles |
 | James Caroll | lists |
 | Marcus Hyatt | index page / login |
